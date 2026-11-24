@@ -1,0 +1,13 @@
+{
+  "name": "shared-resource",
+  "places": [
+    { "name": "Queue", "tokens": 3 },
+    { "name": "Free", "tokens": 1 },
+    { "name": "Busy", "tokens": 0 },
+    { "name": "Done", "tokens": 0 }
+  ],
+  "transitions": [
+    { "name": "Take", "in": { "Queue": 1, "Free": 1 }, "out": { "Busy": 1 } },
+    { "name": "Release", "in": { "Busy": 1 }, "out": { "Free": 1, "Done": 1 } }
+  ]
+}

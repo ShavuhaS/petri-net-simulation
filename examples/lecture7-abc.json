@@ -1,0 +1,14 @@
+{
+  "name": "lecture7-abc",
+  "places": [
+    { "name": "P1", "tokens": 1 },
+    { "name": "P2", "tokens": 1 },
+    { "name": "P3", "tokens": 0 },
+    { "name": "P4", "tokens": 0 }
+  ],
+  "transitions": [
+    { "name": "A", "in": { "P1": 1 }, "out": { "P2": 1 } },
+    { "name": "B", "in": { "P2": 1 }, "out": { "P3": 1 } },
+    { "name": "C", "in": { "P2": 2 }, "out": { "P4": 1 } }
+  ]
+}
