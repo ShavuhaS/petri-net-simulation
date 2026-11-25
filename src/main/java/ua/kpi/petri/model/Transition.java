@@ -78,6 +78,40 @@ public final class Transition {
         }
     }
 
+    /** Firing condition checked against a given marking instead of the current state of the net. */
+    public boolean isEnabledIn(Marking marking) {
+        for (Arc arc : inputs) {
+            if (marking.get(arc.place().getIndex()) < arc.weight()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Marking that results from firing in the given marking; the net itself is not changed.
+     * A place with {@link Marking#OMEGA} stays unbounded whatever is added or removed.
+     */
+    public Marking fire(Marking marking) {
+        if (!isEnabledIn(marking)) {
+            throw new IllegalStateException("Transition '" + name + "' is not enabled in " + marking);
+        }
+        int[] tokens = marking.toArray();
+        for (Arc arc : inputs) {
+            int p = arc.place().getIndex();
+            if (tokens[p] != Marking.OMEGA) {
+                tokens[p] -= arc.weight();
+            }
+        }
+        for (Arc arc : outputs) {
+            int p = arc.place().getIndex();
+            if (tokens[p] != Marking.OMEGA) {
+                tokens[p] += arc.weight();
+            }
+        }
+        return new Marking(tokens);
+    }
+
     private void requireDistinctPlaces(List<Arc> arcs, String kind) {
         Set<Place> seen = new HashSet<>();
         for (Arc arc : arcs) {

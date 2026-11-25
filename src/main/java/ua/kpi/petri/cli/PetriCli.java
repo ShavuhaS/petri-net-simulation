@@ -8,7 +8,8 @@ import picocli.CommandLine.Command;
         mixinStandardHelpOptions = true,
         version = "petri-net-simulation 0.1.0",
         description = "Simulation and analysis of classical Petri nets.",
-        subcommands = {InfoCommand.class, SimulateCommand.class, CommandLine.HelpCommand.class})
+        subcommands = {InfoCommand.class, SimulateCommand.class, ReachabilityCommand.class,
+                CommandLine.HelpCommand.class})
 public final class PetriCli implements Runnable {
 
     @CommandLine.Spec

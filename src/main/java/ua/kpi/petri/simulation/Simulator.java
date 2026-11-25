@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.random.RandomGenerator;
 
 /**
- * Simulation of a classical Petri net (Lecture 10, slide 8): in each tick one of the enabled
+ * Simulation of a classical Petri net: in each tick one of the enabled
  * transitions is chosen with equal probability and fired. The run stops on deadlock
  * (no enabled transitions) or after {@code maxTicks}.
  */

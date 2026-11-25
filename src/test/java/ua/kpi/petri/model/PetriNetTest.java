@@ -52,6 +52,8 @@ class PetriNetTest {
         Set<Marking> set = new HashSet<>(List.of(marking, new Marking(1, 2, 3)));
         assertEquals(1, set.size());
         assertEquals("(1 2 3)", marking.toString());
+        assertEquals("(1 ω)", new Marking(1, Marking.OMEGA).toString());
+        assertThrows(IllegalArgumentException.class, () -> new Marking(1, -1));
     }
 
     @Test
@@ -74,6 +76,7 @@ class PetriNetTest {
         assertThrows(IllegalStateException.class, t0::getIndex);
 
         new PetriNet("n", List.of(a), List.of(t0, t1));
+        assertEquals(0, a.getIndex());
         assertEquals(0, t0.getIndex());
         assertEquals(1, t1.getIndex());
         assertThrows(IllegalArgumentException.class, () -> new PetriNet("other", List.of(a), List.of(t1)));

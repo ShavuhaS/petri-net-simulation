@@ -64,6 +64,31 @@ class TransitionTest {
     }
 
     @Test
+    void firingAMarkingMatchesFiringTheNetAndLeavesNetUnchanged() {
+        PetriNet net = new PetriNet("n", List.of(p1, p2), List.of(t));
+        Marking before = net.snapshot();
+
+        assertTrue(t.isEnabledIn(before));
+        Marking after = t.fire(before);
+        assertEquals(before, net.snapshot());
+
+        t.fire();
+        assertEquals(net.snapshot(), after);
+        assertFalse(t.isEnabledIn(after));
+        assertThrows(IllegalStateException.class, () -> t.fire(after));
+    }
+
+    @Test
+    void omegaStaysOmegaWhenFiringAMarking() {
+        new PetriNet("n", List.of(p1, p2), List.of(t));
+        Marking unbounded = new Marking(Marking.OMEGA, 0);
+
+        assertTrue(t.isEnabledIn(unbounded));
+        assertEquals(new Marking(Marking.OMEGA, 3), t.fire(unbounded));
+        assertEquals(new Marking(Marking.OMEGA, Marking.OMEGA), t.fire(new Marking(Marking.OMEGA, Marking.OMEGA)));
+    }
+
+    @Test
     void rejectsInvalidStructure() {
         assertThrows(IllegalArgumentException.class, () -> new Arc(p1, 0));
         assertThrows(IllegalArgumentException.class, () -> new Place("P", -1));

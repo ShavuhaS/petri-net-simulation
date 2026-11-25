@@ -35,11 +35,19 @@ public final class PetriNet {
             }
         }
         requireArcsWithinNet();
+        for (Place place : this.places) {
+            if (place.isIndexAssigned()) {
+                throw new IllegalArgumentException("Place '" + place.getName() + "' already belongs to another net");
+            }
+        }
         for (Transition transition : this.transitions) {
             if (transition.isIndexAssigned()) {
                 throw new IllegalArgumentException(
                         "Transition '" + transition.getName() + "' already belongs to another net");
             }
+        }
+        for (int i = 0; i < this.places.size(); i++) {
+            this.places.get(i).assignIndex(i);
         }
         for (int i = 0; i < this.transitions.size(); i++) {
             this.transitions.get(i).assignIndex(i);

@@ -4,9 +4,12 @@ import java.util.Objects;
 
 public final class Place {
 
+    private static final int UNASSIGNED = -1;
+
     private final String name;
     private final int initialTokens;
     private int tokens;
+    private int index = UNASSIGNED;
 
     public Place(String name, int initialTokens) {
         this.name = requireName(name);
@@ -19,6 +22,22 @@ public final class Place {
 
     public String getName() {
         return name;
+    }
+
+    /** Position of this place in {@link PetriNet#getPlaces()} and in every {@link Marking} of the net. */
+    public int getIndex() {
+        if (index == UNASSIGNED) {
+            throw new IllegalStateException("Place '" + name + "' does not belong to a net");
+        }
+        return index;
+    }
+
+    boolean isIndexAssigned() {
+        return index != UNASSIGNED;
+    }
+
+    void assignIndex(int index) {
+        this.index = index;
     }
 
     public int getInitialTokens() {
