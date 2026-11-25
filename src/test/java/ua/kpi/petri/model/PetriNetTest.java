@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PetriNetTest {
 
@@ -54,6 +56,15 @@ class PetriNetTest {
         assertEquals("(1 2 3)", marking.toString());
         assertEquals("(1 ω)", new Marking(1, Marking.OMEGA).toString());
         assertThrows(IllegalArgumentException.class, () -> new Marking(1, -1));
+    }
+
+    @Test
+    void coveringComparesEveryPlaceAndOmegaCoversAnyCount() {
+        assertTrue(new Marking(1, 2).isCoveredBy(new Marking(1, 3)));
+        assertTrue(new Marking(1, 2).isCoveredBy(new Marking(1, 2)));
+        assertFalse(new Marking(2, 0).isCoveredBy(new Marking(1, 5)));
+        assertTrue(new Marking(1, 1_000_000).isCoveredBy(new Marking(1, Marking.OMEGA)));
+        assertFalse(new Marking(1, Marking.OMEGA).isCoveredBy(new Marking(1, 1_000_000)));
     }
 
     @Test

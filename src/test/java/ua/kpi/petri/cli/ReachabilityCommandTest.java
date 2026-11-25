@@ -61,7 +61,30 @@ class ReachabilityCommandTest {
         String text = out.toString();
         assertTrue(text.contains("Distinct markings met: 6"), text);
         assertTrue(text.contains("(saturated)"), text);
-        assertTrue(text.contains("met 6 of 6 reachable markings; 0 markings not in the tree"), text);
-        assertTrue(text.contains("Dead markings met: 2 of 2"), text);
+        assertTrue(text.contains("Comparison with the reachability tree (bounded net):"), text);
+        assertTrue(text.contains("markings met that are markings of the tree: 6 of 6"), text);
+        assertTrue(text.contains("markings met that no tree marking covers:   0"), text);
+        assertTrue(text.contains("dead markings met: 2 of 2"), text);
+    }
+
+    @Test
+    void simulatedModeUsesOmegaForUnboundedNet(@TempDir Path dir) throws IOException {
+        Path net = dir.resolve("gen.json");
+        Files.writeString(net, """
+                { "name": "gen", "places": [ { "name": "Gen", "tokens": 1 }, { "name": "Queue" } ],
+                  "transitions": [ { "name": "Arrival", "in": { "Gen": 1 }, "out": { "Gen": 1, "Queue": 1 } } ] }
+                """);
+        StringWriter out = new StringWriter();
+        CommandLine cli = PetriCli.newCommandLine();
+        cli.setOut(new PrintWriter(out));
+
+        assertEquals(0, cli.execute("reachability", net.toString(), "-s", "1", "--until-saturated", "10",
+                "--compare-exact"));
+        String text = out.toString();
+        assertTrue(text.contains("Distinct markings met: 2"), text);
+        assertTrue(text.contains("  (1 ω)"), text);
+        assertTrue(text.contains("(unbounded net)"), text);
+        assertTrue(text.contains("markings met that are markings of the tree: 2 of 2"), text);
+        assertTrue(text.contains("markings met that no tree marking covers:   0"), text);
     }
 }

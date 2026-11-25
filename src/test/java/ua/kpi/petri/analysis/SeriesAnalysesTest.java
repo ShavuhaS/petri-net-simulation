@@ -92,7 +92,8 @@ class SeriesAnalysesTest {
         SimulatedReachability.Result result =
                 new SimulatedReachability(new SimulationSeries(NetJson.parse(GENERATOR), 1, 10), 0.95).runFixed(3);
 
-        assertEquals(List.of(11, 0, 0), result.newPerRun());
+        assertEquals(List.of(2, 0, 0), result.newPerRun());
+        assertEquals(List.of(new Marking(1, 0), new Marking(1, Marking.OMEGA)), result.markings());
         assertEquals(2, result.runsWithoutNew());
         assertEquals(StatisticalBounds.zeroOccurrenceBound(2, 0.95), result.newMarkingBound(), 1e-12);
         assertEquals(0, result.deadlockRuns());

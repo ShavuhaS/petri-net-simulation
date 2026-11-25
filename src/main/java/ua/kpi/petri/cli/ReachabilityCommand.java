@@ -7,6 +7,7 @@ import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.Spec;
 import ua.kpi.petri.analysis.ExactReachabilityAnalyzer;
+import ua.kpi.petri.analysis.ReachabilityComparison;
 import ua.kpi.petri.analysis.ReachabilityResult;
 import ua.kpi.petri.analysis.SimulatedReachability;
 import ua.kpi.petri.io.CsvWriter;
@@ -181,19 +182,17 @@ final class ReachabilityCommand implements Runnable {
 
     private static void printComparison(PrintWriter out, SimulatedReachability.Result simulated,
                                         ReachabilityResult exact) {
-        if (!exact.complete() || !exact.isBounded()) {
-            out.println("Comparison with the reachability tree: not possible ("
-                    + (exact.complete() ? "the net is unbounded" : "node limit reached") + ")");
+        if (!exact.complete()) {
+            out.println("Comparison with the reachability tree: not possible (node limit reached)");
             return;
         }
-        Set<Marking> exactSet = new HashSet<>(exact.markings());
-        long found = simulated.markings().stream().filter(exactSet::contains).count();
-        long extra = simulated.markings().size() - found;
-        out.printf("Comparison with the reachability tree: met %d of %d reachable markings; "
-                + "%d markings not in the tree%n", found, exactSet.size(), extra);
-        Set<Marking> simulatedTerminal = new HashSet<>(simulated.terminal());
-        out.printf("Dead markings met: %d of %d%n",
-                exact.terminal().stream().filter(simulatedTerminal::contains).count(), exact.terminal().size());
+        ReachabilityComparison c = ReachabilityComparison.of(simulated, exact);
+        out.printf("Comparison with the reachability tree (%s):%n",
+                exact.isBounded() ? "bounded net" : "unbounded net");
+        out.printf("  markings met that are markings of the tree: %d of %d%n", c.inTree(), c.treeMarkings());
+        out.printf("  markings met that no tree marking covers:   %d%n", c.notCovered().size());
+        c.notCovered().stream().limit(PRINT_LIMIT).forEach(m -> out.println("    " + m));
+        out.printf("  dead markings met: %d of %d%n", c.deadMet(), c.deadInTree());
     }
 
     private static String placeHeader(PetriNet net) {

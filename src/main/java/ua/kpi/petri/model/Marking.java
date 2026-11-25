@@ -42,6 +42,16 @@ public final class Marking {
         return false;
     }
 
+    /** True if every place of this marking holds at most as many tokens as in {@code other}; ω covers any count. */
+    public boolean isCoveredBy(Marking other) {
+        for (int p = 0; p < tokens.length; p++) {
+            if (tokens[p] > other.tokens[p]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public int size() {
         return tokens.length;
     }

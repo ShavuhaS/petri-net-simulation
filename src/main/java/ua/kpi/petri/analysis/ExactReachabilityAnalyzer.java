@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
-import static ua.kpi.petri.model.Marking.OMEGA;
-
 /**
  * Builds the reachability tree of a net breadth-first.
  * The tree starts at the initial marking; a node is a leaf if no transition is enabled (terminal marking)
@@ -70,7 +68,7 @@ public final class ExactReachabilityAnalyzer {
                     complete = false;
                     continue;
                 }
-                Marking next = withOmegas(transition.fire(node.marking()), node);
+                Marking next = OmegaRule.apply(transition.fire(node.marking()), pathTo(node));
                 nodes++;
                 edges.add(new ReachabilityResult.Edge(node.marking(), transition.getName(), next));
                 if (markings.add(next)) {
@@ -92,36 +90,12 @@ public final class ExactReachabilityAnalyzer {
                 List.copyOf(terminal), deadTransitions, nodes, complete);
     }
 
-    /**
-     * Sets ω in every place where the new marking strictly exceeds an ancestor that it covers.
-     * Repeats because a new ω can make another ancestor covered.
-     */
-    private static Marking withOmegas(Marking marking, Node parent) {
-        int[] tokens = marking.toArray();
-        boolean changed = true;
-        while (changed) {
-            changed = false;
-            for (Node ancestor = parent; ancestor != null; ancestor = ancestor.parent()) {
-                Marking previous = ancestor.marking();
-                if (covers(tokens, previous)) {
-                    for (int p = 0; p < tokens.length; p++) {
-                        if (previous.get(p) < tokens[p] && tokens[p] != OMEGA) {
-                            tokens[p] = OMEGA;
-                            changed = true;
-                        }
-                    }
-                }
-            }
+    /** Markings from the root to {@code node}, the path along which ω is introduced. */
+    private static List<Marking> pathTo(Node node) {
+        List<Marking> path = new ArrayList<>();
+        for (Node n = node; n != null; n = n.parent()) {
+            path.add(n.marking());
         }
-        return new Marking(tokens);
-    }
-
-    private static boolean covers(int[] tokens, Marking other) {
-        for (int p = 0; p < tokens.length; p++) {
-            if (tokens[p] < other.get(p)) {
-                return false;
-            }
-        }
-        return true;
+        return path;
     }
 }

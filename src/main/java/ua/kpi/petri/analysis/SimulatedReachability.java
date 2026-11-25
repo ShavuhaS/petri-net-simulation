@@ -13,13 +13,15 @@ import java.util.Set;
 
 /**
  * Set of reachable markings estimated by simulation: the union of the markings met in a series of runs.
- * It is a subset of the true set; runs that add no new marking indicate that the set has saturated.
- * One object runs one series.
+ * Each run is a path from the initial marking, and ω is introduced along it as in the reachability tree,
+ * so an unbounded place does not make the set grow without limit. The net itself is simulated with real
+ * token counts; only the recorded markings carry ω. Runs that add no new marking indicate that the set
+ * has saturated. One object runs one series.
  */
 public final class SimulatedReachability {
 
     /**
-     * @param markings          distinct markings in the order they were first met
+     * @param markings          distinct markings, possibly with ω, in the order they were first met
      * @param newPerRun         number of markings first met in each run (the saturation curve)
      * @param terminal          dead markings in which runs ended
      * @param runsWithoutNew    number of final runs in a row that found no new marking
@@ -49,6 +51,8 @@ public final class SimulatedReachability {
     private int deadlockRuns;
     private int runsWithoutNew;
     private int foundInRun;
+    private final Set<Marking> runPath = new LinkedHashSet<>();
+    private Marking lastRecorded;
 
     public SimulatedReachability(SimulationSeries series, double confidence) {
         this.series = series;
@@ -87,6 +91,8 @@ public final class SimulatedReachability {
     private void runOnce() {
         int run = newPerRun.size();
         foundInRun = 0;
+        runPath.clear();
+        lastRecorded = null;
         PetriNet net = series.net();
         SimulationListener collector = new SimulationListener() {
             @Override
@@ -99,7 +105,8 @@ public final class SimulatedReachability {
                 record(net.snapshot());
             }
 
-            private void record(Marking marking) {
+            private void record(Marking concrete) {
+                Marking marking = withOmegas(concrete);
                 if (markings.add(marking)) {
                     foundInRun++;
                 }
@@ -108,10 +115,29 @@ public final class SimulatedReachability {
         SimulationResult result = series.run(run, collector);
         if (result.deadlocked()) {
             deadlockRuns++;
-            terminal.add(result.finalMarking());
+            terminal.add(lastRecorded);
         }
         newPerRun.add(foundInRun);
         runsWithoutNew = foundInRun == 0 ? runsWithoutNew + 1 : 0;
+    }
+
+    /**
+     * Keeps the ω places of the previous marking of this run and applies the ω rule
+     * against the earlier markings of the run.
+     */
+    private Marking withOmegas(Marking concrete) {
+        int[] tokens = concrete.toArray();
+        if (lastRecorded != null) {
+            for (int p = 0; p < tokens.length; p++) {
+                if (lastRecorded.isOmega(p)) {
+                    tokens[p] = Marking.OMEGA;
+                }
+            }
+        }
+        Marking marking = OmegaRule.apply(new Marking(tokens), runPath);
+        runPath.add(marking);
+        lastRecorded = marking;
+        return marking;
     }
 
     private Result result() {
