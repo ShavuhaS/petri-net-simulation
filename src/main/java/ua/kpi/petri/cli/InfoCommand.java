@@ -12,7 +12,7 @@ import ua.kpi.petri.model.Transition;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 
-@Command(name = "info", description = "Load a net from JSON, validate it and print its structure.")
+@Command(name = "info", mixinStandardHelpOptions = true, description = "Load a net from JSON, validate it and print its structure.")
 final class InfoCommand implements Runnable {
 
     @Parameters(index = "0", paramLabel = "NET", description = "Net definition file (JSON).")

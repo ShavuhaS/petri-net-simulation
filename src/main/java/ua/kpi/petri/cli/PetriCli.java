@@ -8,7 +8,7 @@ import picocli.CommandLine.Command;
         mixinStandardHelpOptions = true,
         version = "petri-net-simulation 0.1.0",
         description = "Simulation and analysis of classical Petri nets.",
-        subcommands = {InfoCommand.class, CommandLine.HelpCommand.class})
+        subcommands = {InfoCommand.class, SimulateCommand.class, CommandLine.HelpCommand.class})
 public final class PetriCli implements Runnable {
 
     @CommandLine.Spec
@@ -16,7 +16,7 @@ public final class PetriCli implements Runnable {
 
     @Override
     public void run() {
-        spec.commandLine().usage(System.out);
+        spec.commandLine().usage(spec.commandLine().getOut());
     }
 
     public static void main(String[] args) {

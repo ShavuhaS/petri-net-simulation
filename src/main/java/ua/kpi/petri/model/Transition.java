@@ -6,9 +6,12 @@ import java.util.Set;
 
 public final class Transition {
 
+    private static final int UNASSIGNED = -1;
+
     private final String name;
     private final List<Arc> inputs;
     private final List<Arc> outputs;
+    private int index = UNASSIGNED;
 
     public Transition(String name, List<Arc> inputs, List<Arc> outputs) {
         this.name = Place.requireName(name);
@@ -24,6 +27,22 @@ public final class Transition {
 
     public String getName() {
         return name;
+    }
+
+    /** Position of this transition in {@link PetriNet#getTransitions()}; lets per-transition data live in arrays. */
+    public int getIndex() {
+        if (index == UNASSIGNED) {
+            throw new IllegalStateException("Transition '" + name + "' does not belong to a net");
+        }
+        return index;
+    }
+
+    boolean isIndexAssigned() {
+        return index != UNASSIGNED;
+    }
+
+    void assignIndex(int index) {
+        this.index = index;
     }
 
     public List<Arc> getInputs() {

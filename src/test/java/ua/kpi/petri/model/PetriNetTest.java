@@ -67,6 +67,20 @@ class PetriNetTest {
     }
 
     @Test
+    void transitionsAreIndexedByPositionAndBelongToOneNet() {
+        Place a = new Place("A", 1);
+        Transition t0 = new Transition("T0", List.of(new Arc(a, 1)), List.of(new Arc(a, 1)));
+        Transition t1 = new Transition("T1", List.of(new Arc(a, 1)), List.of(new Arc(a, 1)));
+        assertThrows(IllegalStateException.class, t0::getIndex);
+
+        new PetriNet("n", List.of(a), List.of(t0, t1));
+        assertEquals(0, t0.getIndex());
+        assertEquals(1, t1.getIndex());
+        assertThrows(IllegalArgumentException.class, () -> new PetriNet("other", List.of(a), List.of(t1)));
+        assertEquals(1, t1.getIndex());
+    }
+
+    @Test
     void requiresAtLeastOneTransition() {
         assertThrows(IllegalArgumentException.class,
                 () -> new PetriNet("n", List.of(new Place("A", 1)), List.of()));
