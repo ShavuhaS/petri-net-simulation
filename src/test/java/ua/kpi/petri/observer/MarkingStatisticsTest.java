@@ -6,11 +6,11 @@ import ua.kpi.petri.model.PetriNet;
 import ua.kpi.petri.observer.MarkingStatistics.PlaceStatistics;
 import ua.kpi.petri.simulation.NaiveEnabledTransitionsFinder;
 import ua.kpi.petri.simulation.SimulationResult;
+import ua.kpi.petri.simulation.SimulationSeries;
 import ua.kpi.petri.simulation.Simulator;
 
 import java.nio.file.Path;
 import java.util.List;
-import java.util.random.RandomGeneratorFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,7 +27,7 @@ class MarkingStatisticsTest {
         MarkingStatistics statistics = new MarkingStatistics();
         FiringCounter firings = new FiringCounter();
         SimulationResult result = new Simulator(net, new NaiveEnabledTransitionsFinder(net),
-                RandomGeneratorFactory.of("L64X128MixRandom").create(1))
+                SimulationSeries.newRandom(1))
                 .addListener(statistics)
                 .addListener(firings)
                 .run(100);

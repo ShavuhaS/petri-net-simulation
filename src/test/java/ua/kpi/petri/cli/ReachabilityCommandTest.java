@@ -51,12 +51,17 @@ class ReachabilityCommandTest {
     }
 
     @Test
-    void requiresExactFlagForNow() {
-        StringWriter err = new StringWriter();
+    void simulatedModeSaturatesAndMatchesTheTree() {
+        StringWriter out = new StringWriter();
         CommandLine cli = PetriCli.newCommandLine();
-        cli.setErr(new PrintWriter(err));
+        cli.setOut(new PrintWriter(out));
 
-        assertEquals(1, cli.execute("reachability", "examples/lecture7-abc.json"));
-        assertTrue(err.toString().contains("--exact"), err::toString);
+        assertEquals(0, cli.execute("reachability", "examples/lecture7-abc.json", "-s", "1",
+                "--until-saturated", "30", "--compare-exact"));
+        String text = out.toString();
+        assertTrue(text.contains("Distinct markings met: 6"), text);
+        assertTrue(text.contains("(saturated)"), text);
+        assertTrue(text.contains("met 6 of 6 reachable markings; 0 markings not in the tree"), text);
+        assertTrue(text.contains("Dead markings met: 2 of 2"), text);
     }
 }

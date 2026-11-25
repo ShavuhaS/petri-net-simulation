@@ -6,6 +6,7 @@ import ua.kpi.petri.model.Marking;
 import ua.kpi.petri.model.PetriNet;
 import ua.kpi.petri.observer.SimulationListener;
 import ua.kpi.petri.simulation.NaiveEnabledTransitionsFinder;
+import ua.kpi.petri.simulation.SimulationSeries;
 import ua.kpi.petri.simulation.Simulator;
 
 import java.nio.file.Path;
@@ -13,7 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.random.RandomGenerator;
-import java.util.random.RandomGeneratorFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -133,7 +133,7 @@ class ExactReachabilityAnalyzerTest {
             Set<Marking> exact = Set.copyOf(new ExactReachabilityAnalyzer(net).analyze().markings());
 
             Set<Marking> simulated = new HashSet<>();
-            RandomGenerator rng = RandomGeneratorFactory.of("L64X128MixRandom").create(1);
+            RandomGenerator rng = SimulationSeries.newRandom(1);
             Simulator simulator = new Simulator(net, new NaiveEnabledTransitionsFinder(net), rng)
                     .addListener(new SimulationListener() {
                         @Override

@@ -1,27 +1,33 @@
 package ua.kpi.petri.cli;
 
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Mixin;
 import picocli.CommandLine.Model.CommandSpec;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 import picocli.CommandLine.Spec;
 import ua.kpi.petri.analysis.ExactReachabilityAnalyzer;
 import ua.kpi.petri.analysis.ReachabilityResult;
+import ua.kpi.petri.analysis.SimulatedReachability;
 import ua.kpi.petri.io.CsvWriter;
 import ua.kpi.petri.io.NetJson;
 import ua.kpi.petri.model.Marking;
 import ua.kpi.petri.model.PetriNet;
 import ua.kpi.petri.model.Place;
+import ua.kpi.petri.simulation.SimulationSeries;
 
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Command(name = "reachability", mixinStandardHelpOptions = true,
-        description = "Find the set of reachable markings of a net.")
+        description = "Find the set of reachable markings of a net, by simulation or exactly (--exact).")
 final class ReachabilityCommand implements Runnable {
 
     private static final int PRINT_LIMIT = 100;
@@ -29,40 +35,99 @@ final class ReachabilityCommand implements Runnable {
     @Parameters(index = "0", paramLabel = "NET", description = "Net definition file (JSON).")
     private Path netFile;
 
-    @Option(names = "--exact", description = "Build the reachability tree with ω (exhaustive, no simulation).")
+    @Option(names = "--exact", description = "Build the reachability tree with ω instead of simulating.")
     private boolean exact;
 
     @Option(names = "--max-nodes", defaultValue = "" + ExactReachabilityAnalyzer.DEFAULT_MAX_NODES,
             description = "Node limit of the reachability tree (default: ${DEFAULT-VALUE}).")
     private int maxNodes;
 
-    @Option(names = "--out", paramLabel = "DIR", description = "Write CSV results to DIR.")
-    private Path outDir;
+    @Mixin
+    private RunOptions runOptions;
 
-    @Option(names = "--quiet", description = "Do not print result tables.")
-    private boolean quiet;
+    @Mixin
+    private OutputOptions output;
+
+    @Option(names = {"--runs", "-r"}, description = "Simulate exactly N runs instead of running until saturation.")
+    private Integer runs;
+
+    @Option(names = "--until-saturated", defaultValue = "100", paramLabel = "K",
+            description = "Simulate until K runs in a row find no new marking (default: ${DEFAULT-VALUE}).")
+    private int window;
+
+    @Option(names = "--max-runs", defaultValue = "10000",
+            description = "Upper limit of runs when simulating until saturation (default: ${DEFAULT-VALUE}).")
+    private int maxRuns;
+
+    @Option(names = "--compare-exact", description = "Also build the reachability tree and compare the sets.")
+    private boolean compareExact;
 
     @Spec
     private CommandSpec spec;
 
     @Override
     public void run() {
-        if (!exact) {
-            throw new IllegalArgumentException("Only --exact is implemented so far");
-        }
         PetriNet net = NetJson.read(netFile);
-        ReachabilityResult result = new ExactReachabilityAnalyzer(net, maxNodes).analyze();
-
-        if (!quiet) {
-            print(spec.commandLine().getOut(), result);
-        }
-        if (outDir != null) {
-            writeCsv(result);
+        if (exact) {
+            exact(net);
+        } else {
+            simulated(net);
         }
         spec.commandLine().getOut().flush();
     }
 
-    private static void print(PrintWriter out, ReachabilityResult result) {
+    private void exact(PetriNet net) {
+        ReachabilityResult result = new ExactReachabilityAnalyzer(net, maxNodes).analyze();
+        if (!output.quiet) {
+            printExact(spec.commandLine().getOut(), result);
+        }
+        if (output.outDir != null) {
+            Map<Marking, Integer> ids = writeMarkings(net, result.markings(), Set.copyOf(result.terminal()));
+            CsvWriter edges = new CsvWriter("from", "transition", "to");
+            for (ReachabilityResult.Edge edge : result.edges()) {
+                edges.row(ids.get(edge.from()), edge.transition(), ids.get(edge.to()));
+            }
+            edges.write(output.outDir.resolve("reachability-graph.csv"));
+
+            CsvWriter bounds = new CsvWriter("place", "bound");
+            for (Place place : net.getPlaces()) {
+                bounds.row(place.getName(), tokens(result.bound(place)));
+            }
+            bounds.write(output.outDir.resolve("place-bounds.csv"));
+
+            CsvWriter transitions = new CsvWriter("transition", "dead");
+            for (var transition : net.getTransitions()) {
+                transitions.row(transition.getName(), result.deadTransitions().contains(transition.getName()));
+            }
+            transitions.write(output.outDir.resolve("dead-transitions.csv"));
+        }
+    }
+
+    private void simulated(PetriNet net) {
+        SimulationSeries series = runOptions.series(net);
+        SimulatedReachability analysis = new SimulatedReachability(series, runOptions.confidence());
+        SimulatedReachability.Result result = runs != null
+                ? analysis.runFixed(runs)
+                : analysis.runUntilSaturated(window, maxRuns);
+        ReachabilityResult exactResult = compareExact ? new ExactReachabilityAnalyzer(net, maxNodes).analyze() : null;
+
+        if (!output.quiet) {
+            printSimulated(spec.commandLine().getOut(), series, result, exactResult);
+        }
+        if (output.outDir != null) {
+            writeMarkings(net, result.markings(), Set.copyOf(result.terminal()));
+
+            CsvWriter saturation = new CsvWriter("run", "new_markings", "total_markings");
+            int total = 0;
+            for (int run = 0; run < result.runCount(); run++) {
+                total += result.newPerRun().get(run);
+                saturation.row(run, result.newPerRun().get(run), total);
+            }
+            saturation.write(output.outDir.resolve("saturation.csv"));
+        }
+    }
+
+    private static void printExact(PrintWriter out, ReachabilityResult result) {
         PetriNet net = result.net();
         out.println(net);
         out.printf("Reachability tree: %d nodes, %d distinct markings%s%n", result.nodes(), result.markings().size(),
@@ -73,9 +138,7 @@ final class ReachabilityCommand implements Runnable {
             out.println("Bounded: no, unbounded places: " + String.join(", ", result.unboundedPlaces()));
         }
         out.println();
-
-        String header = net.getPlaces().stream().map(Place::getName).collect(Collectors.joining(" ", "(", ")"));
-        out.println("Markings " + header + ":");
+        out.println("Markings " + placeHeader(net) + ":");
         printMarkings(out, result.markings());
         out.println();
         out.println("Terminal markings (deadlocks):");
@@ -83,6 +146,58 @@ final class ReachabilityCommand implements Runnable {
         out.println();
         out.println("Dead transitions (never enabled): "
                 + (result.deadTransitions().isEmpty() ? "none" : String.join(", ", result.deadTransitions())));
+    }
+
+    private void printSimulated(PrintWriter out, SimulationSeries series, SimulatedReachability.Result result,
+                                ReachabilityResult exactResult) {
+        PetriNet net = series.net();
+        int n = result.runCount();
+        out.println(net);
+        out.printf("Runs:   %d (seeds %d .. %d, tick limit %d); %d ended in a deadlock%n",
+                n, series.seedOf(0), series.seedOf(n - 1), series.maxTicks(), result.deadlockRuns());
+        out.printf("Distinct markings met: %d%n", result.markings().size());
+        out.printf("Last %d runs in a row found no new marking", result.runsWithoutNew());
+        if (runs == null) {
+            out.print(result.runsWithoutNew() >= window ? " (saturated)" : " (NOT saturated: run limit reached)");
+        }
+        out.println();
+        if (result.runsWithoutNew() > 0) {
+            out.printf(Locale.ROOT, "Probability that one more run finds a new marking: below %.4f (confidence %s)%n",
+                    result.newMarkingBound(), result.confidence());
+        }
+        out.println();
+
+        out.println("Markings " + placeHeader(net) + ":");
+        printMarkings(out, result.markings());
+        out.println();
+        out.println("Dead markings met:");
+        printMarkings(out, result.terminal());
+
+        if (exactResult != null) {
+            out.println();
+            printComparison(out, result, exactResult);
+        }
+    }
+
+    private static void printComparison(PrintWriter out, SimulatedReachability.Result simulated,
+                                        ReachabilityResult exact) {
+        if (!exact.complete() || !exact.isBounded()) {
+            out.println("Comparison with the reachability tree: not possible ("
+                    + (exact.complete() ? "the net is unbounded" : "node limit reached") + ")");
+            return;
+        }
+        Set<Marking> exactSet = new HashSet<>(exact.markings());
+        long found = simulated.markings().stream().filter(exactSet::contains).count();
+        long extra = simulated.markings().size() - found;
+        out.printf("Comparison with the reachability tree: met %d of %d reachable markings; "
+                + "%d markings not in the tree%n", found, exactSet.size(), extra);
+        Set<Marking> simulatedTerminal = new HashSet<>(simulated.terminal());
+        out.printf("Dead markings met: %d of %d%n",
+                exact.terminal().stream().filter(simulatedTerminal::contains).count(), exact.terminal().size());
+    }
+
+    private static String placeHeader(PetriNet net) {
+        return net.getPlaces().stream().map(Place::getName).collect(Collectors.joining(" ", "(", ")"));
     }
 
     private static void printMarkings(PrintWriter out, List<Marking> markings) {
@@ -96,18 +211,16 @@ final class ReachabilityCommand implements Runnable {
         }
     }
 
-    private void writeCsv(ReachabilityResult result) {
-        PetriNet net = result.net();
+    private Map<Marking, Integer> writeMarkings(PetriNet net, List<Marking> markings, Set<Marking> terminal) {
         Map<Marking, Integer> ids = new HashMap<>();
-
         String[] header = new String[net.getPlaces().size() + 2];
         header[0] = "id";
         for (Place place : net.getPlaces()) {
             header[place.getIndex() + 1] = place.getName();
         }
         header[header.length - 1] = "terminal";
-        CsvWriter markings = new CsvWriter(header);
-        for (Marking marking : result.markings()) {
+        CsvWriter csv = new CsvWriter(header);
+        for (Marking marking : markings) {
             int id = ids.size();
             ids.put(marking, id);
             Object[] row = new Object[header.length];
@@ -115,28 +228,11 @@ final class ReachabilityCommand implements Runnable {
             for (int p = 0; p < marking.size(); p++) {
                 row[p + 1] = tokens(marking.get(p));
             }
-            row[row.length - 1] = result.terminal().contains(marking);
-            markings.row(row);
+            row[row.length - 1] = terminal.contains(marking);
+            csv.row(row);
         }
-        markings.write(outDir.resolve("reachable-markings.csv"));
-
-        CsvWriter edges = new CsvWriter("from", "transition", "to");
-        for (ReachabilityResult.Edge edge : result.edges()) {
-            edges.row(ids.get(edge.from()), edge.transition(), ids.get(edge.to()));
-        }
-        edges.write(outDir.resolve("reachability-graph.csv"));
-
-        CsvWriter bounds = new CsvWriter("place", "bound");
-        for (Place place : net.getPlaces()) {
-            bounds.row(place.getName(), tokens(result.bound(place)));
-        }
-        bounds.write(outDir.resolve("place-bounds.csv"));
-
-        CsvWriter transitions = new CsvWriter("transition", "dead");
-        for (var transition : net.getTransitions()) {
-            transitions.row(transition.getName(), result.deadTransitions().contains(transition.getName()));
-        }
-        transitions.write(outDir.resolve("dead-transitions.csv"));
+        csv.write(output.outDir.resolve("reachable-markings.csv"));
+        return ids;
     }
 
     /** ω is written as "inf" so that pandas reads the column as numbers. */

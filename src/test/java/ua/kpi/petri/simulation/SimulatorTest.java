@@ -12,7 +12,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.random.RandomGenerator;
-import java.util.random.RandomGeneratorFactory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class SimulatorTest {
 
     private static RandomGenerator random(long seed) {
-        return RandomGeneratorFactory.of("L64X128MixRandom").create(seed);
+        return SimulationSeries.newRandom(seed);
     }
 
     private static PetriNet lecture7() {
