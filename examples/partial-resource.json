@@ -1,0 +1,13 @@
+{
+  "name": "partial-resource",
+  "places": [
+    { "name": "Jobs", "tokens": 3 },
+    { "name": "Units", "tokens": 3 },
+    { "name": "Working", "tokens": 0 },
+    { "name": "Done", "tokens": 0 }
+  ],
+  "transitions": [
+    { "name": "Take", "in": { "Jobs": 1, "Units": 2 }, "out": { "Working": 1 } },
+    { "name": "Release", "in": { "Working": 1 }, "out": { "Units": 2, "Done": 1 } }
+  ]
+}

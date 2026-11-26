@@ -1,0 +1,13 @@
+{
+  "name": "conflict-chain",
+  "places": [
+    { "name": "A", "tokens": 1 },
+    { "name": "B", "tokens": 1 },
+    { "name": "X", "tokens": 0 }
+  ],
+  "transitions": [
+    { "name": "T1", "in": { "A": 1 }, "out": { "X": 1 } },
+    { "name": "T2", "in": { "A": 1, "B": 1 }, "out": { "X": 1 } },
+    { "name": "T3", "in": { "B": 1 }, "out": { "X": 1 } }
+  ]
+}

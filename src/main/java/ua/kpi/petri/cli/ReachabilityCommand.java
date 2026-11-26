@@ -1,5 +1,14 @@
 package ua.kpi.petri.cli;
 
+import java.io.PrintWriter;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Mixin;
 import picocli.CommandLine.Model.CommandSpec;
@@ -16,16 +25,6 @@ import ua.kpi.petri.model.Marking;
 import ua.kpi.petri.model.PetriNet;
 import ua.kpi.petri.model.Place;
 import ua.kpi.petri.simulation.SimulationSeries;
-
-import java.io.PrintWriter;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Command(name = "reachability", mixinStandardHelpOptions = true,
         description = "Find the set of reachable markings of a net, by simulation or exactly (--exact).")
@@ -65,6 +64,9 @@ final class ReachabilityCommand implements Runnable {
 
     @Spec
     private CommandSpec spec;
+
+    private SimulatedReachability.Result simulatedResult;
+    private ReachabilityResult exactResult;
 
     @Override
     public void run() {
@@ -110,7 +112,8 @@ final class ReachabilityCommand implements Runnable {
         SimulatedReachability.Result result = runs != null
                 ? analysis.runFixed(runs)
                 : analysis.runUntilSaturated(window, maxRuns);
-        ReachabilityResult exactResult = compareExact ? new ExactReachabilityAnalyzer(net, maxNodes).analyze() : null;
+        exactResult = compareExact ? new ExactReachabilityAnalyzer(net, maxNodes).analyze() : null;
+        simulatedResult = result;
 
         if (!output.quiet) {
             printSimulated(spec.commandLine().getOut(), series, result, exactResult);
@@ -126,6 +129,16 @@ final class ReachabilityCommand implements Runnable {
             }
             saturation.write(output.outDir.resolve("saturation.csv"));
         }
+    }
+
+    /** Result of the last simulated run of this command, for experiments that summarise many nets. */
+    SimulatedReachability.Result simulatedResult() {
+        return simulatedResult;
+    }
+
+    /** Reachability tree built by the last run with {@code --compare-exact}, or null. */
+    ReachabilityResult exactResult() {
+        return exactResult;
     }
 
     private static void printExact(PrintWriter out, ReachabilityResult result) {
@@ -150,7 +163,7 @@ final class ReachabilityCommand implements Runnable {
     }
 
     private void printSimulated(PrintWriter out, SimulationSeries series, SimulatedReachability.Result result,
-                                ReachabilityResult exactResult) {
+                                ReachabilityResult exact) {
         PetriNet net = series.net();
         int n = result.runCount();
         out.println(net);
@@ -174,9 +187,9 @@ final class ReachabilityCommand implements Runnable {
         out.println("Dead markings met:");
         printMarkings(out, result.terminal());
 
-        if (exactResult != null) {
+        if (exact != null) {
             out.println();
-            printComparison(out, result, exactResult);
+            printComparison(out, result, exact);
         }
     }
 

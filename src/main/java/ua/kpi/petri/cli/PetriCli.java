@@ -9,7 +9,7 @@ import picocli.CommandLine.Command;
         version = "petri-net-simulation 0.1.0",
         description = "Simulation and analysis of classical Petri nets.",
         subcommands = {InfoCommand.class, SimulateCommand.class, ReachabilityCommand.class, ActivityCommand.class,
-                GenerateCommand.class, BenchmarkCommand.class, CommandLine.HelpCommand.class})
+                GenerateCommand.class, BenchmarkCommand.class, ExperimentsCommand.class, CommandLine.HelpCommand.class})
 public final class PetriCli implements Runnable {
 
     @CommandLine.Spec
@@ -25,7 +25,12 @@ public final class PetriCli implements Runnable {
     }
 
     static CommandLine newCommandLine() {
-        return new CommandLine(new PetriCli())
+        return configure(new CommandLine(new PetriCli()));
+    }
+
+    /** Settings shared by the whole CLI and by commands run from experiments. */
+    static CommandLine configure(CommandLine commandLine) {
+        return commandLine
                 .setCaseInsensitiveEnumValuesAllowed(true)
                 .setExecutionExceptionHandler((ex, cmd, parseResult) -> {
                     cmd.getErr().println("Error: " + ex.getMessage());
