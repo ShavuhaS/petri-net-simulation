@@ -1,0 +1,24 @@
+$ petri reachability results/verification/nets/partial-resource.json -t 1000 -s 1 --compare-exact -o results/verification/partial-resource/simulated-reachability
+
+PetriNet 'partial-resource' (4 places, 2 transitions)
+Runs:   101 (seeds 1 .. 101, tick limit 1000); 101 ended in a deadlock
+Distinct markings met: 7
+Last 100 runs in a row found no new marking (saturated)
+Probability that one more run finds a new marking: below 0.0295 (confidence 0.95)
+
+Markings (Jobs Units Working Done):
+  (3 3 0 0)
+  (2 1 1 0)
+  (2 3 0 1)
+  (1 1 1 1)
+  (1 3 0 2)
+  (0 1 1 2)
+  (0 3 0 3)
+
+Dead markings met:
+  (0 3 0 3)
+
+Comparison with the reachability tree (bounded net):
+  markings met that are markings of the tree: 7 of 7
+  markings met that no tree marking covers:   0
+  dead markings met: 1 of 1

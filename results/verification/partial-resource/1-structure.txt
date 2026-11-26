@@ -1,0 +1,15 @@
+$ petri info results/verification/nets/partial-resource.json
+
+PetriNet 'partial-resource' (4 places, 2 transitions)
+
+Places:
+  Jobs                 3
+  Units                3
+  Working              0
+  Done                 0
+
+Transitions:
+  Take                 [Jobs, Units*2] -> [Working]
+  Release              [Working] -> [Units*2, Done]
+
+Initial marking: (3 3 0 0)

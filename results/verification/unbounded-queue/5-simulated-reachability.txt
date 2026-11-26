@@ -1,0 +1,22 @@
+$ petri reachability results/verification/nets/unbounded-queue.json -t 1000 -s 1 --compare-exact -o results/verification/unbounded-queue/simulated-reachability
+
+PetriNet 'unbounded-queue' (5 places, 3 transitions)
+Runs:   101 (seeds 1 .. 101, tick limit 1000); 0 ended in a deadlock
+Distinct markings met: 5
+Last 100 runs in a row found no new marking (saturated)
+Probability that one more run finds a new marking: below 0.0295 (confidence 0.95)
+
+Markings (Gen Queue Free Busy Served):
+  (1 0 1 0 0)
+  (1 ω 1 0 0)
+  (1 ω 0 1 0)
+  (1 ω 1 0 ω)
+  (1 ω 0 1 ω)
+
+Dead markings met:
+  none
+
+Comparison with the reachability tree (unbounded net):
+  markings met that are markings of the tree: 5 of 5
+  markings met that no tree marking covers:   0
+  dead markings met: 0 of 0

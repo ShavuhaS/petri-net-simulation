@@ -1,0 +1,23 @@
+$ petri reachability results/verification/nets/conflict-chain.json -t 1000 -s 1 --compare-exact -o results/verification/conflict-chain/simulated-reachability
+
+PetriNet 'conflict-chain' (3 places, 3 transitions)
+Runs:   103 (seeds 1 .. 103, tick limit 1000); 103 ended in a deadlock
+Distinct markings met: 5
+Last 100 runs in a row found no new marking (saturated)
+Probability that one more run finds a new marking: below 0.0295 (confidence 0.95)
+
+Markings (A B X):
+  (1 1 0)
+  (1 0 1)
+  (0 0 2)
+  (0 0 1)
+  (0 1 1)
+
+Dead markings met:
+  (0 0 2)
+  (0 0 1)
+
+Comparison with the reachability tree (bounded net):
+  markings met that are markings of the tree: 5 of 5
+  markings met that no tree marking covers:   0
+  dead markings met: 2 of 2

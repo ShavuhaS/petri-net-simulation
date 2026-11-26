@@ -1,0 +1,18 @@
+$ petri simulate results/verification/nets/shared-resource.json -t 30 -s 1 -p results/verification/shared-resource/2-protocol.txt -o results/verification/shared-resource/single-run
+
+PetriNet 'shared-resource' (4 places, 2 transitions)
+Seed:   1
+Ticks:  6 (stopped by deadlock)
+Final marking: (0 1 0 3)
+
+Marking statistics over ticks 0..6:
+  Place                      Mean    Min    Max
+  Queue                    1.2857      0      3
+  Free                     0.5714      0      1
+  Busy                     0.4286      0      1
+  Done                     1.2857      0      3
+
+Transition firings:
+  Transition              Firings
+  Take                          3
+  Release                       3

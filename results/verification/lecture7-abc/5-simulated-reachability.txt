@@ -1,0 +1,24 @@
+$ petri reachability results/verification/nets/lecture7-abc.json -t 1000 -s 1 --compare-exact -o results/verification/lecture7-abc/simulated-reachability
+
+PetriNet 'lecture7-abc' (4 places, 3 transitions)
+Runs:   104 (seeds 1 .. 104, tick limit 1000); 104 ended in a deadlock
+Distinct markings met: 6
+Last 100 runs in a row found no new marking (saturated)
+Probability that one more run finds a new marking: below 0.0295 (confidence 0.95)
+
+Markings (P1 P2 P3 P4):
+  (1 1 0 0)
+  (0 2 0 0)
+  (0 1 1 0)
+  (0 0 2 0)
+  (1 0 1 0)
+  (0 0 0 1)
+
+Dead markings met:
+  (0 0 2 0)
+  (0 0 0 1)
+
+Comparison with the reachability tree (bounded net):
+  markings met that are markings of the tree: 6 of 6
+  markings met that no tree marking covers:   0
+  dead markings met: 2 of 2

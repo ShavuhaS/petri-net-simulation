@@ -1,0 +1,4 @@
+transition,runs_fired,runs,share,share_error,mean_firings,level,fire_probability_bound,confidence
+A,2000,2000,1.000000,0.050000,1.000000,>=1,,0.950000
+B,1480,2000,0.740000,0.050000,1.480000,>=1,,0.950000
+C,520,2000,0.260000,0.050000,0.260000,>=1,,0.950000

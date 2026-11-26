@@ -1,0 +1,19 @@
+$ petri reachability results/verification/nets/shared-resource.json --exact -o results/verification/shared-resource/tree
+
+PetriNet 'shared-resource' (4 places, 2 transitions)
+Reachability tree: 7 nodes, 7 distinct markings
+Bounded: yes, k = 3
+
+Markings (Queue Free Busy Done):
+  (3 1 0 0)
+  (2 0 1 0)
+  (2 1 0 1)
+  (1 0 1 1)
+  (1 1 0 2)
+  (0 0 1 2)
+  (0 1 0 3)
+
+Terminal markings (deadlocks):
+  (0 1 0 3)
+
+Dead transitions (never enabled): none

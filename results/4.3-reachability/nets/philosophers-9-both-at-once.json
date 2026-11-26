@@ -1,0 +1,266 @@
+{
+  "name" : "philosophers-9-both-at-once",
+  "places" : [ {
+    "name" : "Think1",
+    "tokens" : 1
+  }, {
+    "name" : "Stick1",
+    "tokens" : 1
+  }, {
+    "name" : "Eat1",
+    "tokens" : 0
+  }, {
+    "name" : "Think2",
+    "tokens" : 1
+  }, {
+    "name" : "Stick2",
+    "tokens" : 1
+  }, {
+    "name" : "Eat2",
+    "tokens" : 0
+  }, {
+    "name" : "Think3",
+    "tokens" : 1
+  }, {
+    "name" : "Stick3",
+    "tokens" : 1
+  }, {
+    "name" : "Eat3",
+    "tokens" : 0
+  }, {
+    "name" : "Think4",
+    "tokens" : 1
+  }, {
+    "name" : "Stick4",
+    "tokens" : 1
+  }, {
+    "name" : "Eat4",
+    "tokens" : 0
+  }, {
+    "name" : "Think5",
+    "tokens" : 1
+  }, {
+    "name" : "Stick5",
+    "tokens" : 1
+  }, {
+    "name" : "Eat5",
+    "tokens" : 0
+  }, {
+    "name" : "Think6",
+    "tokens" : 1
+  }, {
+    "name" : "Stick6",
+    "tokens" : 1
+  }, {
+    "name" : "Eat6",
+    "tokens" : 0
+  }, {
+    "name" : "Think7",
+    "tokens" : 1
+  }, {
+    "name" : "Stick7",
+    "tokens" : 1
+  }, {
+    "name" : "Eat7",
+    "tokens" : 0
+  }, {
+    "name" : "Think8",
+    "tokens" : 1
+  }, {
+    "name" : "Stick8",
+    "tokens" : 1
+  }, {
+    "name" : "Eat8",
+    "tokens" : 0
+  }, {
+    "name" : "Think9",
+    "tokens" : 1
+  }, {
+    "name" : "Stick9",
+    "tokens" : 1
+  }, {
+    "name" : "Eat9",
+    "tokens" : 0
+  } ],
+  "transitions" : [ {
+    "name" : "Take1",
+    "in" : {
+      "Think1" : 1,
+      "Stick1" : 1,
+      "Stick2" : 1
+    },
+    "out" : {
+      "Eat1" : 1
+    }
+  }, {
+    "name" : "Put1",
+    "in" : {
+      "Eat1" : 1
+    },
+    "out" : {
+      "Think1" : 1,
+      "Stick1" : 1,
+      "Stick2" : 1
+    }
+  }, {
+    "name" : "Take2",
+    "in" : {
+      "Think2" : 1,
+      "Stick2" : 1,
+      "Stick3" : 1
+    },
+    "out" : {
+      "Eat2" : 1
+    }
+  }, {
+    "name" : "Put2",
+    "in" : {
+      "Eat2" : 1
+    },
+    "out" : {
+      "Think2" : 1,
+      "Stick2" : 1,
+      "Stick3" : 1
+    }
+  }, {
+    "name" : "Take3",
+    "in" : {
+      "Think3" : 1,
+      "Stick3" : 1,
+      "Stick4" : 1
+    },
+    "out" : {
+      "Eat3" : 1
+    }
+  }, {
+    "name" : "Put3",
+    "in" : {
+      "Eat3" : 1
+    },
+    "out" : {
+      "Think3" : 1,
+      "Stick3" : 1,
+      "Stick4" : 1
+    }
+  }, {
+    "name" : "Take4",
+    "in" : {
+      "Think4" : 1,
+      "Stick4" : 1,
+      "Stick5" : 1
+    },
+    "out" : {
+      "Eat4" : 1
+    }
+  }, {
+    "name" : "Put4",
+    "in" : {
+      "Eat4" : 1
+    },
+    "out" : {
+      "Think4" : 1,
+      "Stick4" : 1,
+      "Stick5" : 1
+    }
+  }, {
+    "name" : "Take5",
+    "in" : {
+      "Think5" : 1,
+      "Stick5" : 1,
+      "Stick6" : 1
+    },
+    "out" : {
+      "Eat5" : 1
+    }
+  }, {
+    "name" : "Put5",
+    "in" : {
+      "Eat5" : 1
+    },
+    "out" : {
+      "Think5" : 1,
+      "Stick5" : 1,
+      "Stick6" : 1
+    }
+  }, {
+    "name" : "Take6",
+    "in" : {
+      "Think6" : 1,
+      "Stick6" : 1,
+      "Stick7" : 1
+    },
+    "out" : {
+      "Eat6" : 1
+    }
+  }, {
+    "name" : "Put6",
+    "in" : {
+      "Eat6" : 1
+    },
+    "out" : {
+      "Think6" : 1,
+      "Stick6" : 1,
+      "Stick7" : 1
+    }
+  }, {
+    "name" : "Take7",
+    "in" : {
+      "Think7" : 1,
+      "Stick7" : 1,
+      "Stick8" : 1
+    },
+    "out" : {
+      "Eat7" : 1
+    }
+  }, {
+    "name" : "Put7",
+    "in" : {
+      "Eat7" : 1
+    },
+    "out" : {
+      "Think7" : 1,
+      "Stick7" : 1,
+      "Stick8" : 1
+    }
+  }, {
+    "name" : "Take8",
+    "in" : {
+      "Think8" : 1,
+      "Stick8" : 1,
+      "Stick9" : 1
+    },
+    "out" : {
+      "Eat8" : 1
+    }
+  }, {
+    "name" : "Put8",
+    "in" : {
+      "Eat8" : 1
+    },
+    "out" : {
+      "Think8" : 1,
+      "Stick8" : 1,
+      "Stick9" : 1
+    }
+  }, {
+    "name" : "Take9",
+    "in" : {
+      "Think9" : 1,
+      "Stick9" : 1,
+      "Stick1" : 1
+    },
+    "out" : {
+      "Eat9" : 1
+    }
+  }, {
+    "name" : "Put9",
+    "in" : {
+      "Eat9" : 1
+    },
+    "out" : {
+      "Think9" : 1,
+      "Stick9" : 1,
+      "Stick1" : 1
+    }
+  } ]
+}

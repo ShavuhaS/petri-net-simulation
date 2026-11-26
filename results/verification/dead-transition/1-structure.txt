@@ -1,0 +1,13 @@
+$ petri info results/verification/nets/dead-transition.json
+
+PetriNet 'dead-transition' (2 places, 2 transitions)
+
+Places:
+  P                    1
+  Q                    0
+
+Transitions:
+  Move                 [P] -> [Q]
+  Never                [P*2] -> [Q]
+
+Initial marking: (1 0)

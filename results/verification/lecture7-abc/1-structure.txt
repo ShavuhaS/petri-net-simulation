@@ -1,0 +1,16 @@
+$ petri info results/verification/nets/lecture7-abc.json
+
+PetriNet 'lecture7-abc' (4 places, 3 transitions)
+
+Places:
+  P1                   1
+  P2                   1
+  P3                   0
+  P4                   0
+
+Transitions:
+  A                    [P1] -> [P2]
+  B                    [P2] -> [P3]
+  C                    [P2*2] -> [P4]
+
+Initial marking: (1 1 0 0)

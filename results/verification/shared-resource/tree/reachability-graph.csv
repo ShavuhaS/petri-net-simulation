@@ -1,0 +1,7 @@
+from,transition,to
+0,Take,1
+1,Release,2
+2,Take,3
+3,Release,4
+4,Take,5
+5,Release,6

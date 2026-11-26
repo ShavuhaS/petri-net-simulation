@@ -1,0 +1,47 @@
+{
+  "name" : "unbounded-queue",
+  "places" : [ {
+    "name" : "Gen",
+    "tokens" : 1
+  }, {
+    "name" : "Queue",
+    "tokens" : 0
+  }, {
+    "name" : "Free",
+    "tokens" : 1
+  }, {
+    "name" : "Busy",
+    "tokens" : 0
+  }, {
+    "name" : "Served",
+    "tokens" : 0
+  } ],
+  "transitions" : [ {
+    "name" : "Arrival",
+    "in" : {
+      "Gen" : 1
+    },
+    "out" : {
+      "Gen" : 1,
+      "Queue" : 1
+    }
+  }, {
+    "name" : "Start",
+    "in" : {
+      "Queue" : 1,
+      "Free" : 1
+    },
+    "out" : {
+      "Busy" : 1
+    }
+  }, {
+    "name" : "Finish",
+    "in" : {
+      "Busy" : 1
+    },
+    "out" : {
+      "Free" : 1,
+      "Served" : 1
+    }
+  } ]
+}

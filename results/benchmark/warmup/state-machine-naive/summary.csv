@@ -1,0 +1,2 @@
+family,places,transitions,finder,runs,median_ns_per_tick,mean_ns_per_tick,std_ns_per_tick,min_ns_per_tick,max_ns_per_tick
+state-machine,100,1600,naive,30,7776.396165,7765.380828,223.904490,6771.609510,8007.098980

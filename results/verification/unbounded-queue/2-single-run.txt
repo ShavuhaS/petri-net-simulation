@@ -1,0 +1,20 @@
+$ petri simulate results/verification/nets/unbounded-queue.json -t 30 -s 1 -p results/verification/unbounded-queue/2-protocol.txt -o results/verification/unbounded-queue/single-run
+
+PetriNet 'unbounded-queue' (5 places, 3 transitions)
+Seed:   1
+Ticks:  30 (tick limit reached)
+Final marking: (1 10 0 1 6)
+
+Marking statistics over ticks 0..30:
+  Place                      Mean    Min    Max
+  Gen                      1.0000      1      1
+  Queue                    6.6452      0     12
+  Free                     0.5484      0      1
+  Busy                     0.4516      0      1
+  Served                   2.4839      0      6
+
+Transition firings:
+  Transition              Firings
+  Arrival                      17
+  Start                         7
+  Finish                        6

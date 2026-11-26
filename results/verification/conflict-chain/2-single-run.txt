@@ -1,0 +1,18 @@
+$ petri simulate results/verification/nets/conflict-chain.json -t 30 -s 1 -p results/verification/conflict-chain/2-protocol.txt -o results/verification/conflict-chain/single-run
+
+PetriNet 'conflict-chain' (3 places, 3 transitions)
+Seed:   1
+Ticks:  2 (stopped by deadlock)
+Final marking: (0 0 2)
+
+Marking statistics over ticks 0..2:
+  Place                      Mean    Min    Max
+  A                        0.6667      0      1
+  B                        0.3333      0      1
+  X                        1.0000      0      2
+
+Transition firings:
+  Transition              Firings
+  T1                            1
+  T2                            0
+  T3                            1

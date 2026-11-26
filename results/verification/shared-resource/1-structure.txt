@@ -1,0 +1,15 @@
+$ petri info results/verification/nets/shared-resource.json
+
+PetriNet 'shared-resource' (4 places, 2 transitions)
+
+Places:
+  Queue                3
+  Free                 1
+  Busy                 0
+  Done                 0
+
+Transitions:
+  Take                 [Queue, Free] -> [Busy]
+  Release              [Busy] -> [Free, Done]
+
+Initial marking: (3 1 0 0)

@@ -1,0 +1,325 @@
+{
+  "name" : "philosophers-8",
+  "places" : [ {
+    "name" : "Think1",
+    "tokens" : 1
+  }, {
+    "name" : "Stick1",
+    "tokens" : 1
+  }, {
+    "name" : "HasLeft1",
+    "tokens" : 0
+  }, {
+    "name" : "Eat1",
+    "tokens" : 0
+  }, {
+    "name" : "Think2",
+    "tokens" : 1
+  }, {
+    "name" : "Stick2",
+    "tokens" : 1
+  }, {
+    "name" : "HasLeft2",
+    "tokens" : 0
+  }, {
+    "name" : "Eat2",
+    "tokens" : 0
+  }, {
+    "name" : "Think3",
+    "tokens" : 1
+  }, {
+    "name" : "Stick3",
+    "tokens" : 1
+  }, {
+    "name" : "HasLeft3",
+    "tokens" : 0
+  }, {
+    "name" : "Eat3",
+    "tokens" : 0
+  }, {
+    "name" : "Think4",
+    "tokens" : 1
+  }, {
+    "name" : "Stick4",
+    "tokens" : 1
+  }, {
+    "name" : "HasLeft4",
+    "tokens" : 0
+  }, {
+    "name" : "Eat4",
+    "tokens" : 0
+  }, {
+    "name" : "Think5",
+    "tokens" : 1
+  }, {
+    "name" : "Stick5",
+    "tokens" : 1
+  }, {
+    "name" : "HasLeft5",
+    "tokens" : 0
+  }, {
+    "name" : "Eat5",
+    "tokens" : 0
+  }, {
+    "name" : "Think6",
+    "tokens" : 1
+  }, {
+    "name" : "Stick6",
+    "tokens" : 1
+  }, {
+    "name" : "HasLeft6",
+    "tokens" : 0
+  }, {
+    "name" : "Eat6",
+    "tokens" : 0
+  }, {
+    "name" : "Think7",
+    "tokens" : 1
+  }, {
+    "name" : "Stick7",
+    "tokens" : 1
+  }, {
+    "name" : "HasLeft7",
+    "tokens" : 0
+  }, {
+    "name" : "Eat7",
+    "tokens" : 0
+  }, {
+    "name" : "Think8",
+    "tokens" : 1
+  }, {
+    "name" : "Stick8",
+    "tokens" : 1
+  }, {
+    "name" : "HasLeft8",
+    "tokens" : 0
+  }, {
+    "name" : "Eat8",
+    "tokens" : 0
+  } ],
+  "transitions" : [ {
+    "name" : "TakeLeft1",
+    "in" : {
+      "Think1" : 1,
+      "Stick1" : 1
+    },
+    "out" : {
+      "HasLeft1" : 1
+    }
+  }, {
+    "name" : "TakeRight1",
+    "in" : {
+      "HasLeft1" : 1,
+      "Stick2" : 1
+    },
+    "out" : {
+      "Eat1" : 1
+    }
+  }, {
+    "name" : "Put1",
+    "in" : {
+      "Eat1" : 1
+    },
+    "out" : {
+      "Think1" : 1,
+      "Stick1" : 1,
+      "Stick2" : 1
+    }
+  }, {
+    "name" : "TakeLeft2",
+    "in" : {
+      "Think2" : 1,
+      "Stick2" : 1
+    },
+    "out" : {
+      "HasLeft2" : 1
+    }
+  }, {
+    "name" : "TakeRight2",
+    "in" : {
+      "HasLeft2" : 1,
+      "Stick3" : 1
+    },
+    "out" : {
+      "Eat2" : 1
+    }
+  }, {
+    "name" : "Put2",
+    "in" : {
+      "Eat2" : 1
+    },
+    "out" : {
+      "Think2" : 1,
+      "Stick2" : 1,
+      "Stick3" : 1
+    }
+  }, {
+    "name" : "TakeLeft3",
+    "in" : {
+      "Think3" : 1,
+      "Stick3" : 1
+    },
+    "out" : {
+      "HasLeft3" : 1
+    }
+  }, {
+    "name" : "TakeRight3",
+    "in" : {
+      "HasLeft3" : 1,
+      "Stick4" : 1
+    },
+    "out" : {
+      "Eat3" : 1
+    }
+  }, {
+    "name" : "Put3",
+    "in" : {
+      "Eat3" : 1
+    },
+    "out" : {
+      "Think3" : 1,
+      "Stick3" : 1,
+      "Stick4" : 1
+    }
+  }, {
+    "name" : "TakeLeft4",
+    "in" : {
+      "Think4" : 1,
+      "Stick4" : 1
+    },
+    "out" : {
+      "HasLeft4" : 1
+    }
+  }, {
+    "name" : "TakeRight4",
+    "in" : {
+      "HasLeft4" : 1,
+      "Stick5" : 1
+    },
+    "out" : {
+      "Eat4" : 1
+    }
+  }, {
+    "name" : "Put4",
+    "in" : {
+      "Eat4" : 1
+    },
+    "out" : {
+      "Think4" : 1,
+      "Stick4" : 1,
+      "Stick5" : 1
+    }
+  }, {
+    "name" : "TakeLeft5",
+    "in" : {
+      "Think5" : 1,
+      "Stick5" : 1
+    },
+    "out" : {
+      "HasLeft5" : 1
+    }
+  }, {
+    "name" : "TakeRight5",
+    "in" : {
+      "HasLeft5" : 1,
+      "Stick6" : 1
+    },
+    "out" : {
+      "Eat5" : 1
+    }
+  }, {
+    "name" : "Put5",
+    "in" : {
+      "Eat5" : 1
+    },
+    "out" : {
+      "Think5" : 1,
+      "Stick5" : 1,
+      "Stick6" : 1
+    }
+  }, {
+    "name" : "TakeLeft6",
+    "in" : {
+      "Think6" : 1,
+      "Stick6" : 1
+    },
+    "out" : {
+      "HasLeft6" : 1
+    }
+  }, {
+    "name" : "TakeRight6",
+    "in" : {
+      "HasLeft6" : 1,
+      "Stick7" : 1
+    },
+    "out" : {
+      "Eat6" : 1
+    }
+  }, {
+    "name" : "Put6",
+    "in" : {
+      "Eat6" : 1
+    },
+    "out" : {
+      "Think6" : 1,
+      "Stick6" : 1,
+      "Stick7" : 1
+    }
+  }, {
+    "name" : "TakeLeft7",
+    "in" : {
+      "Think7" : 1,
+      "Stick7" : 1
+    },
+    "out" : {
+      "HasLeft7" : 1
+    }
+  }, {
+    "name" : "TakeRight7",
+    "in" : {
+      "HasLeft7" : 1,
+      "Stick8" : 1
+    },
+    "out" : {
+      "Eat7" : 1
+    }
+  }, {
+    "name" : "Put7",
+    "in" : {
+      "Eat7" : 1
+    },
+    "out" : {
+      "Think7" : 1,
+      "Stick7" : 1,
+      "Stick8" : 1
+    }
+  }, {
+    "name" : "TakeLeft8",
+    "in" : {
+      "Think8" : 1,
+      "Stick8" : 1
+    },
+    "out" : {
+      "HasLeft8" : 1
+    }
+  }, {
+    "name" : "TakeRight8",
+    "in" : {
+      "HasLeft8" : 1,
+      "Stick1" : 1
+    },
+    "out" : {
+      "Eat8" : 1
+    }
+  }, {
+    "name" : "Put8",
+    "in" : {
+      "Eat8" : 1
+    },
+    "out" : {
+      "Think8" : 1,
+      "Stick8" : 1,
+      "Stick1" : 1
+    }
+  } ]
+}

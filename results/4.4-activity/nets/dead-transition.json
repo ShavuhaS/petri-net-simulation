@@ -1,0 +1,27 @@
+{
+  "name" : "dead-transition",
+  "places" : [ {
+    "name" : "P",
+    "tokens" : 1
+  }, {
+    "name" : "Q",
+    "tokens" : 0
+  } ],
+  "transitions" : [ {
+    "name" : "Move",
+    "in" : {
+      "P" : 1
+    },
+    "out" : {
+      "Q" : 1
+    }
+  }, {
+    "name" : "Never",
+    "in" : {
+      "P" : 2
+    },
+    "out" : {
+      "Q" : 1
+    }
+  } ]
+}

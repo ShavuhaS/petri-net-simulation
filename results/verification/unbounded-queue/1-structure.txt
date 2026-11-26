@@ -1,0 +1,17 @@
+$ petri info results/verification/nets/unbounded-queue.json
+
+PetriNet 'unbounded-queue' (5 places, 3 transitions)
+
+Places:
+  Gen                  1
+  Queue                0
+  Free                 1
+  Busy                 0
+  Served               0
+
+Transitions:
+  Arrival              [Gen] -> [Gen, Queue]
+  Start                [Queue, Free] -> [Busy]
+  Finish               [Busy] -> [Free, Served]
+
+Initial marking: (1 0 1 0 0)

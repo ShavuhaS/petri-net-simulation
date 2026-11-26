@@ -1,0 +1,23 @@
+$ petri reachability results/verification/nets/queue-chain-2.json --exact -o results/verification/queue-chain-2/tree
+
+PetriNet 'queue-chain-n2-c1' (8 places, 5 transitions)
+Reachability tree: 30 nodes, 11 distinct markings
+Bounded: no, unbounded places: Queue1, Queue2, Served
+
+Markings (Gen Queue1 Free1 Busy1 Queue2 Free2 Busy2 Served):
+  (1 0 1 0 0 1 0 0)
+  (1 ω 1 0 0 1 0 0)
+  (1 ω 0 1 0 1 0 0)
+  (1 ω 1 0 ω 1 0 0)
+  (1 ω 0 1 ω 1 0 0)
+  (1 ω 1 0 ω 0 1 0)
+  (1 ω 0 1 ω 0 1 0)
+  (1 ω 1 0 ω 1 0 ω)
+  (1 ω 0 1 ω 1 0 ω)
+  (1 ω 1 0 ω 0 1 ω)
+  (1 ω 0 1 ω 0 1 ω)
+
+Terminal markings (deadlocks):
+  none
+
+Dead transitions (never enabled): none

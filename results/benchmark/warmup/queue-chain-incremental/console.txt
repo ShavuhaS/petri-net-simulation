@@ -1,0 +1,7 @@
+$ petri benchmark --family queue-chain -n 1000 --finders incremental --warmup 0 -r 30 -o results/benchmark/warmup/queue-chain-incremental
+
+Java 25.0.5+8-LTS (OpenJDK 64-Bit Server VM), Linux amd64, 12 processors, max heap 4096 MiB
+100000 ticks per run, 0 warm-up runs, 30 measured runs, seeds 1 .. 30
+
+  Family        Places  Trans.  Finder          Median ns       Min ns       Max ns
+  queue-chain     3002    2001  incremental         51.86        48.23       110.79

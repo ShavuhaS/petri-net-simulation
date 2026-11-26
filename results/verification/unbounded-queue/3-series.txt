@@ -1,0 +1,14 @@
+$ petri simulate results/verification/nets/unbounded-queue.json -r auto -t 1000 -s 1 -o results/verification/unbounded-queue/series
+
+PetriNet 'unbounded-queue' (5 places, 3 transitions)
+Runs:   10000 (pilot series 20; Chebyshev's inequality requires 706186 for epsilon = 0.05, limited by --max-runs)
+Seeds:  1 .. 10000
+Ticks:  limit 1000 per run; 0 of 10000 runs ended in a deadlock
+
+Mean marking over 10000 runs (error by Chebyshev's inequality at confidence 0.95):
+  Place                      Mean  +/- error   Variance    Min    Max
+  Gen                      1.0000     0.0000     0.0000      1      1
+  Queue                  126.0012     0.6007   180.4484      0    352
+  Free                     0.5013     0.0007     0.0003      0      1
+  Busy                     0.4987     0.0007     0.0003      0      1
+  Served                 124.3338     0.2002    20.0497      0    280

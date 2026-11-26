@@ -1,0 +1,12 @@
+id,Gen,Queue1,Free1,Busy1,Queue2,Free2,Busy2,Served,terminal
+0,1,0,1,0,0,1,0,0,false
+1,1,inf,1,0,0,1,0,0,false
+2,1,inf,0,1,0,1,0,0,false
+3,1,inf,1,0,inf,1,0,0,false
+4,1,inf,0,1,inf,1,0,0,false
+5,1,inf,1,0,inf,0,1,0,false
+6,1,inf,0,1,inf,0,1,0,false
+7,1,inf,1,0,inf,1,0,inf,false
+8,1,inf,0,1,inf,1,0,inf,false
+9,1,inf,1,0,inf,0,1,inf,false
+10,1,inf,0,1,inf,0,1,inf,false

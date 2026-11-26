@@ -1,0 +1,51 @@
+$ petri reachability results/4.3-reachability/nets/philosophers-4.json -t 1000 -s 1 --until-saturated 100 --max-runs 100000 --compare-exact --max-nodes 5000000 -o results/4.3-reachability/philosophers-4
+
+PetriNet 'philosophers-4' (16 places, 12 transitions)
+Runs:   163 (seeds 1 .. 163, tick limit 1000); 163 ended in a deadlock
+Distinct markings met: 34
+Last 100 runs in a row found no new marking (saturated)
+Probability that one more run finds a new marking: below 0.0295 (confidence 0.95)
+
+Markings (Think1 Stick1 HasLeft1 Eat1 Think2 Stick2 HasLeft2 Eat2 Think3 Stick3 HasLeft3 Eat3 Think4 Stick4 HasLeft4 Eat4):
+  (1 1 0 0 1 1 0 0 1 1 0 0 1 1 0 0)
+  (1 1 0 0 1 1 0 0 0 0 1 0 1 1 0 0)
+  (1 1 0 0 1 1 0 0 0 0 0 1 1 0 0 0)
+  (1 1 0 0 1 1 0 0 1 1 0 0 0 0 1 0)
+  (1 1 0 0 1 1 0 0 0 0 1 0 0 0 1 0)
+  (1 0 0 0 1 1 0 0 0 0 1 0 0 0 0 1)
+  (0 0 1 0 1 1 0 0 0 0 1 0 1 1 0 0)
+  (0 0 1 0 1 1 0 0 0 0 1 0 0 0 1 0)
+  (0 0 0 1 1 0 0 0 0 0 1 0 0 0 1 0)
+  (0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0)
+  (1 1 0 0 0 0 1 0 0 0 0 1 1 0 0 0)
+  (1 1 0 0 0 0 1 0 1 1 0 0 1 1 0 0)
+  (0 0 1 0 0 0 1 0 1 1 0 0 1 1 0 0)
+  (0 0 1 0 0 0 1 0 0 0 1 0 1 1 0 0)
+  (0 0 1 0 0 0 1 0 0 0 0 1 1 0 0 0)
+  (0 0 1 0 0 0 0 1 1 0 0 0 1 1 0 0)
+  (0 0 1 0 1 1 0 0 1 1 0 0 1 1 0 0)
+  (0 0 0 1 1 0 0 0 1 1 0 0 1 1 0 0)
+  (0 0 0 1 1 0 0 0 0 0 1 0 1 1 0 0)
+  (1 1 0 0 0 0 1 0 0 0 1 0 1 1 0 0)
+  (0 0 1 0 0 0 1 0 1 1 0 0 0 0 1 0)
+  (1 0 0 0 0 0 1 0 0 0 1 0 0 0 0 1)
+  (1 1 0 0 0 0 1 0 0 0 1 0 0 0 1 0)
+  (0 0 1 0 1 1 0 0 0 0 0 1 1 0 0 0)
+  (0 0 1 0 0 0 0 1 1 0 0 0 0 0 1 0)
+  (0 0 1 0 1 1 0 0 1 1 0 0 0 0 1 0)
+  (0 0 0 1 1 0 0 0 1 1 0 0 0 0 1 0)
+  (1 1 0 0 0 0 1 0 1 1 0 0 0 0 1 0)
+  (1 0 0 0 1 1 0 0 1 1 0 0 0 0 0 1)
+  (1 1 0 0 0 0 0 1 1 0 0 0 0 0 1 0)
+  (0 0 0 1 1 0 0 0 0 0 0 1 1 0 0 0)
+  (1 0 0 0 0 0 1 0 1 1 0 0 0 0 0 1)
+  (1 1 0 0 0 0 0 1 1 0 0 0 1 1 0 0)
+  (1 0 0 0 0 0 0 1 1 0 0 0 0 0 0 1)
+
+Dead markings met:
+  (0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0)
+
+Comparison with the reachability tree (bounded net):
+  markings met that are markings of the tree: 34 of 34
+  markings met that no tree marking covers:   0
+  dead markings met: 1 of 1

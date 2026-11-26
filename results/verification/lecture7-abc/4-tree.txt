@@ -1,0 +1,19 @@
+$ petri reachability results/verification/nets/lecture7-abc.json --exact -o results/verification/lecture7-abc/tree
+
+PetriNet 'lecture7-abc' (4 places, 3 transitions)
+Reachability tree: 7 nodes, 6 distinct markings
+Bounded: yes, k = 2
+
+Markings (P1 P2 P3 P4):
+  (1 1 0 0)
+  (0 2 0 0)
+  (1 0 1 0)
+  (0 1 1 0)
+  (0 0 0 1)
+  (0 0 2 0)
+
+Terminal markings (deadlocks):
+  (0 0 0 1)
+  (0 0 2 0)
+
+Dead transitions (never enabled): none

@@ -1,0 +1,10 @@
+from,transition,to
+0,Arrival,1
+1,Arrival,1
+1,Start,2
+2,Arrival,2
+2,Finish,3
+3,Arrival,3
+3,Start,4
+4,Arrival,4
+4,Finish,3

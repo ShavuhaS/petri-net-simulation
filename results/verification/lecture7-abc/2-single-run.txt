@@ -1,0 +1,19 @@
+$ petri simulate results/verification/nets/lecture7-abc.json -t 30 -s 1 -p results/verification/lecture7-abc/2-protocol.txt -o results/verification/lecture7-abc/single-run
+
+PetriNet 'lecture7-abc' (4 places, 3 transitions)
+Seed:   1
+Ticks:  3 (stopped by deadlock)
+Final marking: (0 0 2 0)
+
+Marking statistics over ticks 0..3:
+  Place                      Mean    Min    Max
+  P1                       0.2500      0      1
+  P2                       1.0000      0      2
+  P3                       0.7500      0      2
+  P4                       0.0000      0      0
+
+Transition firings:
+  Transition              Firings
+  A                             1
+  B                             2
+  C                             0

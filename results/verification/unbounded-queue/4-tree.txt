@@ -1,0 +1,17 @@
+$ petri reachability results/verification/nets/unbounded-queue.json --exact -o results/verification/unbounded-queue/tree
+
+PetriNet 'unbounded-queue' (5 places, 3 transitions)
+Reachability tree: 10 nodes, 5 distinct markings
+Bounded: no, unbounded places: Queue, Served
+
+Markings (Gen Queue Free Busy Served):
+  (1 0 1 0 0)
+  (1 ω 1 0 0)
+  (1 ω 0 1 0)
+  (1 ω 1 0 ω)
+  (1 ω 0 1 ω)
+
+Terminal markings (deadlocks):
+  none
+
+Dead transitions (never enabled): none

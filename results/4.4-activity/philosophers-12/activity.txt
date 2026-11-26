@@ -1,0 +1,46 @@
+$ petri activity results/4.4-activity/nets/philosophers-12.json -r auto -t 1000 -s 1 -o results/4.4-activity/philosophers-12
+
+PetriNet 'philosophers-12' (48 places, 36 transitions)
+Runs:   2000, required by Chebyshev's inequality for epsilon = 0.05; seeds 1 .. 2000, tick limit 1000
+
+Share of runs in which a transition fired (error at confidence 0.95):
+  Transition             Runs fired    Share  +/- error  Firings/run   Liveness level
+  TakeLeft1               2000/2000   1.0000     0.0500         1.69   >= 1
+  TakeRight1               963/2000   0.4815     0.0500         0.69   >= 1
+  Put1                     963/2000   0.4815     0.0500         0.69   >= 1
+  TakeLeft2               2000/2000   1.0000     0.0500         1.69   >= 1
+  TakeRight2               956/2000   0.4780     0.0500         0.69   >= 1
+  Put2                     956/2000   0.4780     0.0500         0.69   >= 1
+  TakeLeft3               2000/2000   1.0000     0.0500         1.68   >= 1
+  TakeRight3               917/2000   0.4585     0.0500         0.68   >= 1
+  Put3                     917/2000   0.4585     0.0500         0.68   >= 1
+  TakeLeft4               2000/2000   1.0000     0.0500         1.69   >= 1
+  TakeRight4               942/2000   0.4710     0.0500         0.69   >= 1
+  Put4                     942/2000   0.4710     0.0500         0.69   >= 1
+  TakeLeft5               2000/2000   1.0000     0.0500         1.67   >= 1
+  TakeRight5               904/2000   0.4520     0.0500         0.67   >= 1
+  Put5                     904/2000   0.4520     0.0500         0.67   >= 1
+  TakeLeft6               2000/2000   1.0000     0.0500         1.69   >= 1
+  TakeRight6               945/2000   0.4725     0.0500         0.69   >= 1
+  Put6                     945/2000   0.4725     0.0500         0.69   >= 1
+  TakeLeft7               2000/2000   1.0000     0.0500         1.69   >= 1
+  TakeRight7               937/2000   0.4685     0.0500         0.69   >= 1
+  Put7                     937/2000   0.4685     0.0500         0.69   >= 1
+  TakeLeft8               2000/2000   1.0000     0.0500         1.69   >= 1
+  TakeRight8               940/2000   0.4700     0.0500         0.69   >= 1
+  Put8                     940/2000   0.4700     0.0500         0.69   >= 1
+  TakeLeft9               2000/2000   1.0000     0.0500         1.65   >= 1
+  TakeRight9               919/2000   0.4595     0.0500         0.65   >= 1
+  Put9                     919/2000   0.4595     0.0500         0.65   >= 1
+  TakeLeft10              2000/2000   1.0000     0.0500         1.67   >= 1
+  TakeRight10              934/2000   0.4670     0.0500         0.67   >= 1
+  Put10                    934/2000   0.4670     0.0500         0.67   >= 1
+  TakeLeft11              2000/2000   1.0000     0.0500         1.69   >= 1
+  TakeRight11              982/2000   0.4910     0.0500         0.69   >= 1
+  Put11                    982/2000   0.4910     0.0500         0.69   >= 1
+  TakeLeft12              2000/2000   1.0000     0.0500         1.69   >= 1
+  TakeRight12              937/2000   0.4685     0.0500         0.69   >= 1
+  Put12                    937/2000   0.4685     0.0500         0.69   >= 1
+
+Level 0: none, every transition fired at least once.
+Level 4: excluded for every transition, 2000 of 2000 runs reached a dead marking.

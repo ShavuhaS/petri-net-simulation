@@ -1,0 +1,7 @@
+from,transition,to
+0,A,1
+0,B,2
+1,B,3
+1,C,4
+2,A,3
+3,B,5

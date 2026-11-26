@@ -1,0 +1,16 @@
+$ petri simulate results/verification/nets/dead-transition.json -t 30 -s 1 -p results/verification/dead-transition/2-protocol.txt -o results/verification/dead-transition/single-run
+
+PetriNet 'dead-transition' (2 places, 2 transitions)
+Seed:   1
+Ticks:  1 (stopped by deadlock)
+Final marking: (0 1)
+
+Marking statistics over ticks 0..1:
+  Place                      Mean    Min    Max
+  P                        0.5000      0      1
+  Q                        0.5000      0      1
+
+Transition firings:
+  Transition              Firings
+  Move                          1
+  Never                         0

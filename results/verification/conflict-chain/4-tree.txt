@@ -1,0 +1,18 @@
+$ petri reachability results/verification/nets/conflict-chain.json --exact -o results/verification/conflict-chain/tree
+
+PetriNet 'conflict-chain' (3 places, 3 transitions)
+Reachability tree: 6 nodes, 5 distinct markings
+Bounded: yes, k = 2
+
+Markings (A B X):
+  (1 1 0)
+  (0 1 1)
+  (0 0 1)
+  (1 0 1)
+  (0 0 2)
+
+Terminal markings (deadlocks):
+  (0 0 1)
+  (0 0 2)
+
+Dead transitions (never enabled): none

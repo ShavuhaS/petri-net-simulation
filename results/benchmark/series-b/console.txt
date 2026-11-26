@@ -1,0 +1,20 @@
+$ petri benchmark --family state-machine --places 100,200,400,800,1600,3200,6400 --transitions 6400 --warmup 5 -r 20 -o results/benchmark/series-b
+
+Java 25.0.5+8-LTS (OpenJDK 64-Bit Server VM), Linux amd64, 12 processors, max heap 4096 MiB
+100000 ticks per run, 5 warm-up runs, 20 measured runs, seeds 1 .. 20
+
+  Family        Places  Trans.  Finder          Median ns       Min ns       Max ns
+  state-machine     100    6400  naive            53364.90     52629.98     55305.79
+  state-machine     100    6400  incremental        618.80       572.13       633.73
+  state-machine     200    6400  naive            48997.91     48296.81     51041.01
+  state-machine     200    6400  incremental        355.16       352.42       359.60
+  state-machine     400    6400  naive            40201.71     39711.09     41123.54
+  state-machine     400    6400  incremental        217.41       215.85       220.66
+  state-machine     800    6400  naive            37510.29     36932.77     38591.84
+  state-machine     800    6400  incremental        141.95       126.55       144.51
+  state-machine    1600    6400  naive            34957.83     34433.29     37004.18
+  state-machine    1600    6400  incremental         99.15        97.99       100.07
+  state-machine    3200    6400  naive            35886.14     34793.27     37698.27
+  state-machine    3200    6400  incremental         75.33        74.66        76.09
+  state-machine    6400    6400  naive            42149.07     38783.75     43809.09
+  state-machine    6400    6400  incremental         57.62        56.28        60.53

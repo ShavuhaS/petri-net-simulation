@@ -1,0 +1,7 @@
+id,P1,P2,P3,P4,terminal
+0,1,1,0,0,false
+1,0,2,0,0,false
+2,1,0,1,0,false
+3,0,1,1,0,false
+4,0,0,0,1,true
+5,0,0,2,0,true

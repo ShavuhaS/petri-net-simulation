@@ -1,0 +1,2 @@
+family,places,transitions,finder,runs,median_ns_per_tick,mean_ns_per_tick,std_ns_per_tick,min_ns_per_tick,max_ns_per_tick
+queue-chain,3002,2001,naive,30,6084.891820,6306.098811,840.450547,6047.236760,10590.836430

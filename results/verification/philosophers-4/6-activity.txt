@@ -1,0 +1,22 @@
+$ petri activity results/verification/nets/philosophers-4.json -r auto -t 1000 -s 1 -o results/verification/philosophers-4/activity
+
+PetriNet 'philosophers-4' (16 places, 12 transitions)
+Runs:   2000, required by Chebyshev's inequality for epsilon = 0.05; seeds 1 .. 2000, tick limit 1000
+
+Share of runs in which a transition fired (error at confidence 0.95):
+  Transition             Runs fired    Share  +/- error  Firings/run   Liveness level
+  TakeLeft1               2000/2000   1.0000     0.0500         1.65   >= 1
+  TakeRight1               853/2000   0.4265     0.0500         0.65   >= 1
+  Put1                     853/2000   0.4265     0.0500         0.65   >= 1
+  TakeLeft2               2000/2000   1.0000     0.0500         1.66   >= 1
+  TakeRight2               858/2000   0.4290     0.0500         0.66   >= 1
+  Put2                     858/2000   0.4290     0.0500         0.66   >= 1
+  TakeLeft3               2000/2000   1.0000     0.0500         1.67   >= 1
+  TakeRight3               878/2000   0.4390     0.0500         0.67   >= 1
+  Put3                     878/2000   0.4390     0.0500         0.67   >= 1
+  TakeLeft4               2000/2000   1.0000     0.0500         1.71   >= 1
+  TakeRight4               913/2000   0.4565     0.0500         0.71   >= 1
+  Put4                     913/2000   0.4565     0.0500         0.71   >= 1
+
+Level 0: none, every transition fired at least once.
+Level 4: excluded for every transition, 2000 of 2000 runs reached a dead marking.

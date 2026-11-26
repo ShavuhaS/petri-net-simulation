@@ -1,0 +1,25 @@
+$ petri simulate results/verification/nets/philosophers-4.json -r auto -t 1000 -s 1 -o results/verification/philosophers-4/series
+
+PetriNet 'philosophers-4' (16 places, 12 transitions)
+Runs:   503 (pilot series 20; Chebyshev's inequality requires 503 for epsilon = 0.05)
+Seeds:  1 .. 503
+Ticks:  limit 1000 per run; 503 of 503 runs ended in a deadlock
+
+Mean marking over 503 runs (error by Chebyshev's inequality at confidence 0.95):
+  Place                      Mean  +/- error   Variance    Min    Max
+  Think1                   0.4922     0.0413     0.0428      0      1
+  Stick1                   0.4331     0.0360     0.0326      0      1
+  HasLeft1                 0.4543     0.0421     0.0445      0      1
+  Eat1                     0.0536     0.0158     0.0063      0      1
+  Think2                   0.4730     0.0401     0.0405      0      1
+  Stick2                   0.4195     0.0359     0.0324      0      1
+  HasLeft2                 0.4730     0.0408     0.0419      0      1
+  Eat2                     0.0540     0.0157     0.0062      0      1
+  Think3                   0.4922     0.0418     0.0440      0      1
+  Stick3                   0.4382     0.0375     0.0353      0      1
+  HasLeft3                 0.4515     0.0419     0.0442      0      1
+  Eat3                     0.0563     0.0159     0.0064      0      1
+  Think4                   0.4982     0.0416     0.0434      0      1
+  Stick4                   0.4419     0.0371     0.0346      0      1
+  HasLeft4                 0.4428     0.0403     0.0408      0      1
+  Eat4                     0.0591     0.0167     0.0070      0      1

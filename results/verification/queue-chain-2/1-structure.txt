@@ -1,0 +1,22 @@
+$ petri info results/verification/nets/queue-chain-2.json
+
+PetriNet 'queue-chain-n2-c1' (8 places, 5 transitions)
+
+Places:
+  Gen                  1
+  Queue1               0
+  Free1                1
+  Busy1                0
+  Queue2               0
+  Free2                1
+  Busy2                0
+  Served               0
+
+Transitions:
+  Arrival              [Gen] -> [Gen, Queue1]
+  Start1               [Queue1, Free1] -> [Busy1]
+  Finish1              [Busy1] -> [Free1, Queue2]
+  Start2               [Queue2, Free2] -> [Busy2]
+  Finish2              [Busy2] -> [Free2, Served]
+
+Initial marking: (1 0 1 0 0 1 0 0)

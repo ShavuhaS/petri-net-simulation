@@ -1,0 +1,12 @@
+$ petri activity results/verification/nets/dead-transition.json -r auto -t 1000 -s 1 -o results/verification/dead-transition/activity
+
+PetriNet 'dead-transition' (2 places, 2 transitions)
+Runs:   2000, required by Chebyshev's inequality for epsilon = 0.05; seeds 1 .. 2000, tick limit 1000
+
+Share of runs in which a transition fired (error at confidence 0.95):
+  Transition             Runs fired    Share  +/- error  Firings/run   Liveness level
+  Move                    2000/2000   1.0000     0.0500         1.00   >= 1
+  Never                      0/2000   0.0000     0.0500         0.00   0
+
+Level 0: the transition did not fire in any of 2000 runs; with confidence 0.95 its probability to fire in a run is below 0.0015.
+Level 4: excluded for every transition, 2000 of 2000 runs reached a dead marking.

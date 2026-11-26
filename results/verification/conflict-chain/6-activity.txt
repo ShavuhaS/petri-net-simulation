@@ -1,0 +1,13 @@
+$ petri activity results/verification/nets/conflict-chain.json -r auto -t 1000 -s 1 -o results/verification/conflict-chain/activity
+
+PetriNet 'conflict-chain' (3 places, 3 transitions)
+Runs:   2000, required by Chebyshev's inequality for epsilon = 0.05; seeds 1 .. 2000, tick limit 1000
+
+Share of runs in which a transition fired (error at confidence 0.95):
+  Transition             Runs fired    Share  +/- error  Firings/run   Liveness level
+  T1                      1297/2000   0.6485     0.0500         0.65   >= 1
+  T2                       703/2000   0.3515     0.0500         0.35   >= 1
+  T3                      1297/2000   0.6485     0.0500         0.65   >= 1
+
+Level 0: none, every transition fired at least once.
+Level 4: excluded for every transition, 2000 of 2000 runs reached a dead marking.

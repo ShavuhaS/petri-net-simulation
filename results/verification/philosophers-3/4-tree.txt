@@ -1,0 +1,26 @@
+$ petri reachability results/verification/nets/philosophers-3.json --exact -o results/verification/philosophers-3/tree
+
+PetriNet 'philosophers-3' (12 places, 9 transitions)
+Reachability tree: 28 nodes, 14 distinct markings
+Bounded: yes, k = 1
+
+Markings (Think1 Stick1 HasLeft1 Eat1 Think2 Stick2 HasLeft2 Eat2 Think3 Stick3 HasLeft3 Eat3):
+  (1 1 0 0 1 1 0 0 1 1 0 0)
+  (0 0 1 0 1 1 0 0 1 1 0 0)
+  (1 1 0 0 0 0 1 0 1 1 0 0)
+  (1 1 0 0 1 1 0 0 0 0 1 0)
+  (0 0 0 1 1 0 0 0 1 1 0 0)
+  (0 0 1 0 0 0 1 0 1 1 0 0)
+  (0 0 1 0 1 1 0 0 0 0 1 0)
+  (1 1 0 0 0 0 0 1 1 0 0 0)
+  (1 1 0 0 0 0 1 0 0 0 1 0)
+  (1 0 0 0 1 1 0 0 0 0 0 1)
+  (0 0 0 1 1 0 0 0 0 0 1 0)
+  (0 0 1 0 0 0 0 1 1 0 0 0)
+  (0 0 1 0 0 0 1 0 0 0 1 0)
+  (1 0 0 0 0 0 1 0 0 0 0 1)
+
+Terminal markings (deadlocks):
+  (0 0 1 0 0 0 1 0 0 0 1 0)
+
+Dead transitions (never enabled): none

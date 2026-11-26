@@ -1,0 +1,12 @@
+$ petri simulate results/verification/nets/conflict-chain.json -r auto -t 1000 -s 1 -o results/verification/conflict-chain/series
+
+PetriNet 'conflict-chain' (3 places, 3 transitions)
+Runs:   506 (pilot series 20; Chebyshev's inequality requires 506 for epsilon = 0.05)
+Seeds:  1 .. 506
+Ticks:  limit 1000 per run; 506 of 506 runs ended in a deadlock
+
+Mean marking over 506 runs (error by Chebyshev's inequality at confidence 0.95):
+  Place                      Mean  +/- error   Variance    Min    Max
+  A                        0.5056     0.0263     0.0175      0      1
+  B                        0.4944     0.0263     0.0175      0      1
+  X                        0.8152     0.0480     0.0584      0      2

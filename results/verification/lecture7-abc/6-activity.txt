@@ -1,0 +1,13 @@
+$ petri activity results/verification/nets/lecture7-abc.json -r auto -t 1000 -s 1 -o results/verification/lecture7-abc/activity
+
+PetriNet 'lecture7-abc' (4 places, 3 transitions)
+Runs:   2000, required by Chebyshev's inequality for epsilon = 0.05; seeds 1 .. 2000, tick limit 1000
+
+Share of runs in which a transition fired (error at confidence 0.95):
+  Transition             Runs fired    Share  +/- error  Firings/run   Liveness level
+  A                       2000/2000   1.0000     0.0500         1.00   >= 1
+  B                       1480/2000   0.7400     0.0500         1.48   >= 1
+  C                        520/2000   0.2600     0.0500         0.26   >= 1
+
+Level 0: none, every transition fired at least once.
+Level 4: excluded for every transition, 2000 of 2000 runs reached a dead marking.

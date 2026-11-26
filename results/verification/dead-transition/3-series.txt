@@ -1,0 +1,11 @@
+$ petri simulate results/verification/nets/dead-transition.json -r auto -t 1000 -s 1 -o results/verification/dead-transition/series
+
+PetriNet 'dead-transition' (2 places, 2 transitions)
+Runs:   20 (pilot series 20; Chebyshev's inequality requires 0 for epsilon = 0.05)
+Seeds:  1 .. 20
+Ticks:  limit 1000 per run; 20 of 20 runs ended in a deadlock
+
+Mean marking over 20 runs (error by Chebyshev's inequality at confidence 0.95):
+  Place                      Mean  +/- error   Variance    Min    Max
+  P                        0.5000     0.0000     0.0000      0      1
+  Q                        0.5000     0.0000     0.0000      0      1

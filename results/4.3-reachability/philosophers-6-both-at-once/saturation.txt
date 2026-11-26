@@ -1,0 +1,35 @@
+$ petri reachability results/4.3-reachability/nets/philosophers-6-both-at-once.json -t 1000 -s 1 --until-saturated 100 --max-runs 100000 --compare-exact --max-nodes 5000000 -o results/4.3-reachability/philosophers-6-both-at-once
+
+PetriNet 'philosophers-6-both-at-once' (18 places, 12 transitions)
+Runs:   101 (seeds 1 .. 101, tick limit 1000); 0 ended in a deadlock
+Distinct markings met: 18
+Last 100 runs in a row found no new marking (saturated)
+Probability that one more run finds a new marking: below 0.0295 (confidence 0.95)
+
+Markings (Think1 Stick1 Eat1 Think2 Stick2 Eat2 Think3 Stick3 Eat3 Think4 Stick4 Eat4 Think5 Stick5 Eat5 Think6 Stick6 Eat6):
+  (1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0)
+  (1 0 0 1 1 0 1 1 0 1 1 0 1 1 0 0 0 1)
+  (1 0 0 1 1 0 1 1 0 0 0 1 1 0 0 0 0 1)
+  (1 1 0 1 1 0 1 1 0 0 0 1 1 0 0 1 1 0)
+  (1 0 0 0 0 1 1 0 0 0 0 1 1 0 0 0 0 1)
+  (1 1 0 0 0 1 1 0 0 0 0 1 1 0 0 1 1 0)
+  (1 1 0 0 0 1 1 0 0 1 1 0 1 1 0 1 1 0)
+  (1 0 0 0 0 1 1 0 0 1 1 0 1 1 0 0 0 1)
+  (0 0 1 1 0 0 1 1 0 0 0 1 1 0 0 1 1 0)
+  (0 0 1 1 0 0 1 1 0 1 1 0 1 1 0 1 1 0)
+  (0 0 1 1 0 0 1 1 0 1 1 0 0 0 1 1 0 0)
+  (0 0 1 1 0 0 0 0 1 1 0 0 0 0 1 1 0 0)
+  (0 0 1 1 0 0 0 0 1 1 0 0 1 1 0 1 1 0)
+  (1 1 0 1 1 0 0 0 1 1 0 0 0 0 1 1 0 0)
+  (1 1 0 1 1 0 1 1 0 1 1 0 0 0 1 1 0 0)
+  (1 1 0 0 0 1 1 0 0 1 1 0 0 0 1 1 0 0)
+  (1 1 0 1 1 0 0 0 1 1 0 0 1 1 0 1 1 0)
+  (1 0 0 1 1 0 0 0 1 1 0 0 1 1 0 0 0 1)
+
+Dead markings met:
+  none
+
+Comparison with the reachability tree (bounded net):
+  markings met that are markings of the tree: 18 of 18
+  markings met that no tree marking covers:   0
+  dead markings met: 0 of 0

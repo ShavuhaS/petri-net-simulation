@@ -1,0 +1,30 @@
+$ petri info results/verification/nets/philosophers-3.json
+
+PetriNet 'philosophers-3' (12 places, 9 transitions)
+
+Places:
+  Think1               1
+  Stick1               1
+  HasLeft1             0
+  Eat1                 0
+  Think2               1
+  Stick2               1
+  HasLeft2             0
+  Eat2                 0
+  Think3               1
+  Stick3               1
+  HasLeft3             0
+  Eat3                 0
+
+Transitions:
+  TakeLeft1            [Think1, Stick1] -> [HasLeft1]
+  TakeRight1           [HasLeft1, Stick2] -> [Eat1]
+  Put1                 [Eat1] -> [Think1, Stick1, Stick2]
+  TakeLeft2            [Think2, Stick2] -> [HasLeft2]
+  TakeRight2           [HasLeft2, Stick3] -> [Eat2]
+  Put2                 [Eat2] -> [Think2, Stick2, Stick3]
+  TakeLeft3            [Think3, Stick3] -> [HasLeft3]
+  TakeRight3           [HasLeft3, Stick1] -> [Eat3]
+  Put3                 [Eat3] -> [Think3, Stick3, Stick1]
+
+Initial marking: (1 1 0 0 1 1 0 0 1 1 0 0)

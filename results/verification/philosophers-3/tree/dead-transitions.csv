@@ -1,0 +1,10 @@
+transition,dead
+TakeLeft1,false
+TakeRight1,false
+Put1,false
+TakeLeft2,false
+TakeRight2,false
+Put2,false
+TakeLeft3,false
+TakeRight3,false
+Put3,false

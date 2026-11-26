@@ -1,0 +1,25 @@
+$ petri simulate results/verification/nets/queue-chain-2.json -t 30 -s 1 -p results/verification/queue-chain-2/2-protocol.txt -o results/verification/queue-chain-2/single-run
+
+PetriNet 'queue-chain-n2-c1' (8 places, 5 transitions)
+Seed:   1
+Ticks:  30 (tick limit reached)
+Final marking: (1 12 1 0 1 1 0 3)
+
+Marking statistics over ticks 0..30:
+  Place                      Mean    Min    Max
+  Gen                      1.0000      1      1
+  Queue1                   6.8065      0     13
+  Free1                    0.5806      0      1
+  Busy1                    0.4194      0      1
+  Queue2                   0.3226      0      1
+  Free2                    0.7742      0      1
+  Busy2                    0.2258      0      1
+  Served                   1.0968      0      3
+
+Transition firings:
+  Transition              Firings
+  Arrival                      16
+  Start1                        4
+  Finish1                       4
+  Start2                        3
+  Finish2                       3

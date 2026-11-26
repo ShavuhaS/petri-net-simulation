@@ -1,0 +1,4 @@
+transition,runs_fired,runs,share,share_error,mean_firings,level,fire_probability_bound,confidence
+Arrival,2000,2000,1.000000,0.050000,500.458000,>=1,,0.950000
+Start,2000,2000,1.000000,0.050000,250.018500,>=1,,0.950000
+Finish,2000,2000,1.000000,0.050000,249.523500,>=1,,0.950000

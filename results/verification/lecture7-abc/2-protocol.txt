@@ -1,0 +1,6 @@
+tick  event                 marking (P1 P2 P3 P4)
+0     initial               (1 1 0 0)
+1     A                     (0 2 0 0)
+2     B                     (0 1 1 0)
+3     B                     (0 0 2 0)
+3     stop: deadlock (no enabled transitions)

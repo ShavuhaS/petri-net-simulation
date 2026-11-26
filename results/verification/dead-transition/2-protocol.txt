@@ -1,0 +1,4 @@
+tick  event                 marking (P Q)
+0     initial               (1 0)
+1     Move                  (0 1)
+1     stop: deadlock (no enabled transitions)

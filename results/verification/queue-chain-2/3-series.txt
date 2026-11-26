@@ -1,0 +1,17 @@
+$ petri simulate results/verification/nets/queue-chain-2.json -r auto -t 1000 -s 1 -o results/verification/queue-chain-2/series
+
+PetriNet 'queue-chain-n2-c1' (8 places, 5 transitions)
+Runs:   10000 (pilot series 20; Chebyshev's inequality requires 1098216 for epsilon = 0.05, limited by --max-runs)
+Seeds:  1 .. 10000
+Ticks:  limit 1000 per run; 0 of 10000 runs ended in a deadlock
+
+Mean marking over 10000 runs (error by Chebyshev's inequality at confidence 0.95):
+  Place                      Mean  +/- error   Variance    Min    Max
+  Gen                      1.0000     0.0000     0.0000      1      1
+  Queue1                  86.7256     0.5355   143.3754      0    248
+  Free1                    0.5059     0.0010     0.0005      0      1
+  Busy1                    0.4941     0.0010     0.0005      0      1
+  Queue2                   6.6116     0.1743    15.1841      0     54
+  Free2                    0.5227     0.0012     0.0007      0      1
+  Busy2                    0.4773     0.0012     0.0007      0      1
+  Served                  78.1084     0.1214     7.3676      0    175

@@ -1,0 +1,14 @@
+$ petri reachability results/verification/nets/dead-transition.json --exact -o results/verification/dead-transition/tree
+
+PetriNet 'dead-transition' (2 places, 2 transitions)
+Reachability tree: 2 nodes, 2 distinct markings
+Bounded: yes, k = 1
+
+Markings (P Q):
+  (1 0)
+  (0 1)
+
+Terminal markings (deadlocks):
+  (0 1)
+
+Dead transitions (never enabled): Never

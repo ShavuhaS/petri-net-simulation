@@ -1,0 +1,13 @@
+$ petri simulate results/verification/nets/lecture7-abc.json -r auto -t 1000 -s 1 -o results/verification/lecture7-abc/series
+
+PetriNet 'lecture7-abc' (4 places, 3 transitions)
+Runs:   716 (pilot series 20; Chebyshev's inequality requires 716 for epsilon = 0.05)
+Seeds:  1 .. 716
+Ticks:  limit 1000 per run; 716 of 716 runs ended in a deadlock
+
+Mean marking over 716 runs (error by Chebyshev's inequality at confidence 0.95):
+  Place                      Mean  +/- error   Variance    Min    Max
+  P1                       0.3946     0.0181     0.0117      0      1
+  P2                       0.7535     0.0418     0.0626      0      2
+  P3                       0.6816     0.0689     0.1701      0      2
+  P4                       0.0852     0.0243     0.0212      0      1

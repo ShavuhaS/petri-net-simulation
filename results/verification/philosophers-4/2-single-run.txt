@@ -1,0 +1,40 @@
+$ petri simulate results/verification/nets/philosophers-4.json -t 30 -s 1 -p results/verification/philosophers-4/2-protocol.txt -o results/verification/philosophers-4/single-run
+
+PetriNet 'philosophers-4' (16 places, 12 transitions)
+Seed:   1
+Ticks:  13 (stopped by deadlock)
+Final marking: (0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0)
+
+Marking statistics over ticks 0..13:
+  Place                      Mean    Min    Max
+  Think1                   0.6429      0      1
+  Stick1                   0.5714      0      1
+  HasLeft1                 0.2857      0      1
+  Eat1                     0.0714      0      1
+  Think2                   0.9286      0      1
+  Stick2                   0.8571      0      1
+  HasLeft2                 0.0714      0      1
+  Eat2                     0.0000      0      0
+  Think3                   0.2143      0      1
+  Stick3                   0.2143      0      1
+  HasLeft3                 0.7143      0      1
+  Eat3                     0.0714      0      1
+  Think4                   0.4286      0      1
+  Stick4                   0.3571      0      1
+  HasLeft4                 0.5000      0      1
+  Eat4                     0.0714      0      1
+
+Transition firings:
+  Transition              Firings
+  TakeLeft1                     2
+  TakeRight1                    1
+  Put1                          1
+  TakeLeft2                     1
+  TakeRight2                    0
+  Put2                          0
+  TakeLeft3                     2
+  TakeRight3                    1
+  Put3                          1
+  TakeLeft4                     2
+  TakeRight4                    1
+  Put4                          1

@@ -1,0 +1,19 @@
+$ petri reachability results/verification/nets/partial-resource.json --exact -o results/verification/partial-resource/tree
+
+PetriNet 'partial-resource' (4 places, 2 transitions)
+Reachability tree: 7 nodes, 7 distinct markings
+Bounded: yes, k = 3
+
+Markings (Jobs Units Working Done):
+  (3 3 0 0)
+  (2 1 1 0)
+  (2 3 0 1)
+  (1 1 1 1)
+  (1 3 0 2)
+  (0 1 1 2)
+  (0 3 0 3)
+
+Terminal markings (deadlocks):
+  (0 3 0 3)
+
+Dead transitions (never enabled): none

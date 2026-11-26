@@ -1,0 +1,6 @@
+id,Gen,Queue,Free,Busy,Served,terminal
+0,1,0,1,0,0,false
+1,1,inf,1,0,0,false
+2,1,inf,0,1,0,false
+3,1,inf,1,0,inf,false
+4,1,inf,0,1,inf,false

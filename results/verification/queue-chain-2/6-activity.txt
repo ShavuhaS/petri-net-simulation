@@ -1,0 +1,15 @@
+$ petri activity results/verification/nets/queue-chain-2.json -r auto -t 1000 -s 1 -o results/verification/queue-chain-2/activity
+
+PetriNet 'queue-chain-n2-c1' (8 places, 5 transitions)
+Runs:   2000, required by Chebyshev's inequality for epsilon = 0.05; seeds 1 .. 2000, tick limit 1000
+
+Share of runs in which a transition fired (error at confidence 0.95):
+  Transition             Runs fired    Share  +/- error  Firings/run   Liveness level
+  Arrival                 2000/2000   1.0000     0.0500       341.49   >= 1
+  Start1                  2000/2000   1.0000     0.0500       170.20   >= 1
+  Finish1                 2000/2000   1.0000     0.0500       169.70   >= 1
+  Start2                  2000/2000   1.0000     0.0500       159.54   >= 1
+  Finish2                 2000/2000   1.0000     0.0500       159.07   >= 1
+
+Level 0: none, every transition fired at least once.
+Level 4: no run reached a dead marking, so it is not excluded.

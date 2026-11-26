@@ -1,0 +1,16 @@
+transition,firings
+TakeLeft1,1
+TakeRight1,0
+Put1,0
+TakeLeft2,1
+TakeRight2,0
+Put2,0
+TakeLeft3,1
+TakeRight3,0
+Put3,0
+TakeLeft4,3
+TakeRight4,2
+Put4,2
+TakeLeft5,2
+TakeRight5,1
+Put5,1

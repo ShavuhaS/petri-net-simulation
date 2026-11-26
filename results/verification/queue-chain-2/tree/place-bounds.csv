@@ -1,0 +1,9 @@
+place,bound
+Gen,1
+Queue1,inf
+Free1,1
+Busy1,1
+Queue2,inf
+Free2,1
+Busy2,1
+Served,inf

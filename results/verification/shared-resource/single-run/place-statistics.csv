@@ -1,0 +1,5 @@
+place,mean,min,max
+Queue,1.285714,0,3
+Free,0.571429,0,1
+Busy,0.428571,0,1
+Done,1.285714,0,3

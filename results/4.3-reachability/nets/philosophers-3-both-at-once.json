@@ -1,0 +1,92 @@
+{
+  "name" : "philosophers-3-both-at-once",
+  "places" : [ {
+    "name" : "Think1",
+    "tokens" : 1
+  }, {
+    "name" : "Stick1",
+    "tokens" : 1
+  }, {
+    "name" : "Eat1",
+    "tokens" : 0
+  }, {
+    "name" : "Think2",
+    "tokens" : 1
+  }, {
+    "name" : "Stick2",
+    "tokens" : 1
+  }, {
+    "name" : "Eat2",
+    "tokens" : 0
+  }, {
+    "name" : "Think3",
+    "tokens" : 1
+  }, {
+    "name" : "Stick3",
+    "tokens" : 1
+  }, {
+    "name" : "Eat3",
+    "tokens" : 0
+  } ],
+  "transitions" : [ {
+    "name" : "Take1",
+    "in" : {
+      "Think1" : 1,
+      "Stick1" : 1,
+      "Stick2" : 1
+    },
+    "out" : {
+      "Eat1" : 1
+    }
+  }, {
+    "name" : "Put1",
+    "in" : {
+      "Eat1" : 1
+    },
+    "out" : {
+      "Think1" : 1,
+      "Stick1" : 1,
+      "Stick2" : 1
+    }
+  }, {
+    "name" : "Take2",
+    "in" : {
+      "Think2" : 1,
+      "Stick2" : 1,
+      "Stick3" : 1
+    },
+    "out" : {
+      "Eat2" : 1
+    }
+  }, {
+    "name" : "Put2",
+    "in" : {
+      "Eat2" : 1
+    },
+    "out" : {
+      "Think2" : 1,
+      "Stick2" : 1,
+      "Stick3" : 1
+    }
+  }, {
+    "name" : "Take3",
+    "in" : {
+      "Think3" : 1,
+      "Stick3" : 1,
+      "Stick1" : 1
+    },
+    "out" : {
+      "Eat3" : 1
+    }
+  }, {
+    "name" : "Put3",
+    "in" : {
+      "Eat3" : 1
+    },
+    "out" : {
+      "Think3" : 1,
+      "Stick3" : 1,
+      "Stick1" : 1
+    }
+  } ]
+}

@@ -1,0 +1,37 @@
+$ petri simulate results/verification/nets/philosophers-5-both-at-once.json -t 30 -s 1 -p results/verification/philosophers-5-both-at-once/2-protocol.txt -o results/verification/philosophers-5-both-at-once/single-run
+
+PetriNet 'philosophers-5-both-at-once' (15 places, 10 transitions)
+Seed:   1
+Ticks:  30 (tick limit reached)
+Final marking: (1 1 0 1 1 0 1 1 0 1 1 0 1 1 0)
+
+Marking statistics over ticks 0..30:
+  Place                      Mean    Min    Max
+  Think1                   0.8710      0      1
+  Stick1                   0.5161      0      1
+  Eat1                     0.1290      0      1
+  Think2                   0.8065      0      1
+  Stick2                   0.6774      0      1
+  Eat2                     0.1935      0      1
+  Think3                   0.8065      0      1
+  Stick3                   0.6129      0      1
+  Eat3                     0.1935      0      1
+  Think4                   0.8065      0      1
+  Stick4                   0.6129      0      1
+  Eat4                     0.1935      0      1
+  Think5                   0.6452      0      1
+  Stick5                   0.4516      0      1
+  Eat5                     0.3548      0      1
+
+Transition firings:
+  Transition              Firings
+  Take1                         2
+  Put1                          2
+  Take2                         4
+  Put2                          4
+  Take3                         3
+  Put3                          3
+  Take4                         2
+  Put4                          2
+  Take5                         4
+  Put5                          4
