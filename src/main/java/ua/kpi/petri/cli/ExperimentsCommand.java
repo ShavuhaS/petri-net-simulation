@@ -62,9 +62,9 @@ final class ExperimentsCommand implements Runnable {
     }
 
     @Command(name = "benchmark", mixinStandardHelpOptions = true,
-            description = {"Time of one simulation step: warm-up study, then series A, B and C (subsection 4.2).",
+            description = {"Time of one simulation step: series A, B and C (subsection 4.2).",
                     "Run it in a fresh JVM with a fixed heap:",
-                    "  java -Xms2g -Xmx2g -jar petri-net-simulation.jar experiments benchmark"})
+                    "  java -Xms4g -Xmx4g -jar petri-net-simulation.jar experiments benchmark"})
     static final class Benchmark implements Runnable {
 
         @ParentCommand
@@ -113,11 +113,10 @@ final class ExperimentsCommand implements Runnable {
     }
 
     @Command(name = "all", mixinStandardHelpOptions = true,
-            description = {"All experiments: the benchmark first, while the JIT compiler is still cold, "
-                    + "then verification, reachable markings and activity.",
-                    "Takes about an hour, mostly the benchmark. Run it with as little background load as possible "
+            description = {"All experiments: the benchmark first, then verification, reachable markings and activity.",
+                    "Takes about half an hour, mostly the benchmark. Run it with as little background load as possible "
                     + "and a fixed heap:",
-                    "  java -Xms2g -Xmx2g -jar petri-net-simulation.jar experiments all"})
+                    "  java -Xms4g -Xmx4g -jar petri-net-simulation.jar experiments all"})
     static final class All implements Runnable {
 
         @ParentCommand

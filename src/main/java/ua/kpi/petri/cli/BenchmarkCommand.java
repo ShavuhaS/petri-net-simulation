@@ -20,7 +20,7 @@ import java.util.Locale;
 
 @Command(name = "benchmark", mixinStandardHelpOptions = true,
         description = {"Measure the time of one simulation step on generated nets of growing size.",
-                "Run the JVM with a fixed heap, e.g. java -Xms2g -Xmx2g -jar petri-net-simulation.jar benchmark ..."})
+                "Run the JVM with a fixed heap, e.g. java -Xms4g -Xmx4g -jar petri-net-simulation.jar benchmark ..."})
 final class BenchmarkCommand implements Runnable {
 
     @Option(names = "--family", required = true, paramLabel = "state-machine|queue-chain",

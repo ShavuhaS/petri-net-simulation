@@ -88,20 +88,9 @@ final class Experiments {
         return nets;
     }
 
-    /**
-     * First the warm-up study: runs without warm-up at the start of the process, so the time of every run shows
-     * how long the JIT compiler takes to settle. Then series A, B and C with {@code warmup} runs before every point.
-     */
+    /** Series A, B and C with {@code warmup} runs before every point. */
     static List<BenchmarkRun> benchmarkRuns(int warmup) {
         List<BenchmarkRun> runs = new ArrayList<>();
-        for (String finder : List.of("naive", "incremental")) {
-            runs.add(new BenchmarkRun("Warm-up, state machine P = 100, T = 1600, " + finder,
-                    "warmup/state-machine-" + finder, List.of("--family", "state-machine", "--places", "100",
-                    "--transitions", "1600", "--finders", finder, "--warmup", "0", "-r", "30")));
-            runs.add(new BenchmarkRun("Warm-up, queue chain n = 1000, " + finder,
-                    "warmup/queue-chain-" + finder, List.of("--family", "queue-chain", "-n", "1000",
-                    "--finders", finder, "--warmup", "0", "-r", "30")));
-        }
         String w = Integer.toString(warmup);
         runs.add(new BenchmarkRun("Series A: effect of T (P = 100)", "series-a", List.of("--family", "state-machine",
                 "--places", "100", "--transitions", "100,200,400,800,1600,3200,6400,12800", "--warmup", w, "-r", "20")));

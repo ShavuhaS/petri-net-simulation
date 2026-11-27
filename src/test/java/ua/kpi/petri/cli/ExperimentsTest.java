@@ -80,13 +80,11 @@ class ExperimentsTest {
     }
 
     @Test
-    void benchmarkPlanStartsWithWarmUpStudy() {
+    void benchmarkPlanHasThreeSeriesWithWarmUp() {
         List<Experiments.BenchmarkRun> runs = Experiments.benchmarkRuns(3);
 
-        assertEquals(7, runs.size());
-        assertTrue(runs.subList(0, 4).stream().allMatch(r -> r.dir().startsWith("warmup/")
-                && r.args().containsAll(List.of("--warmup", "0"))));
-        assertTrue(runs.get(4).args().containsAll(List.of("--warmup", "3", "-r", "20")));
+        assertEquals(List.of("series-a", "series-b", "series-c"), runs.stream().map(Experiments.BenchmarkRun::dir).toList());
+        assertTrue(runs.stream().allMatch(r -> r.args().containsAll(List.of("--warmup", "3", "-r", "20"))));
     }
 
     @Test
