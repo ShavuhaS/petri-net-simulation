@@ -106,12 +106,17 @@ final class ReachabilityCommand implements Runnable {
         }
     }
 
+    /** Time of the series of runs, without the tree, printing and writing files. */
+    private double seriesSeconds;
+
     private void simulated(PetriNet net) {
         SimulationSeries series = runOptions.series(net);
         SimulatedReachability analysis = new SimulatedReachability(series, runOptions.confidence());
+        long start = System.nanoTime();
         SimulatedReachability.Result result = runs != null
                 ? analysis.runFixed(runs)
                 : analysis.runUntilSaturated(window, maxRuns);
+        seriesSeconds = (System.nanoTime() - start) / 1e9;
         exactResult = compareExact ? new ExactReachabilityAnalyzer(net, maxNodes).analyze() : null;
         simulatedResult = result;
 
@@ -169,6 +174,8 @@ final class ReachabilityCommand implements Runnable {
         out.println(net);
         out.printf("Runs:   %d (seeds %d .. %d, tick limit %d); %d ended in a deadlock%n",
                 n, series.seedOf(0), series.seedOf(n - 1), series.maxTicks(), result.deadlockRuns());
+        out.printf(Locale.ROOT, "Time:   %.3f s for the runs (finder: %s)%n", seriesSeconds,
+                series.finder().name().toLowerCase(Locale.ROOT));
         out.printf("Distinct markings met: %d%n", result.markings().size());
         out.printf("Last %d runs in a row found no new marking", result.runsWithoutNew());
         if (runs == null) {

@@ -1,0 +1,74 @@
+{
+  "name" : "queue-chain-n2-c1",
+  "places" : [ {
+    "name" : "Gen",
+    "tokens" : 1
+  }, {
+    "name" : "Queue1",
+    "tokens" : 0
+  }, {
+    "name" : "Free1",
+    "tokens" : 1
+  }, {
+    "name" : "Busy1",
+    "tokens" : 0
+  }, {
+    "name" : "Queue2",
+    "tokens" : 0
+  }, {
+    "name" : "Free2",
+    "tokens" : 1
+  }, {
+    "name" : "Busy2",
+    "tokens" : 0
+  }, {
+    "name" : "Served",
+    "tokens" : 0
+  } ],
+  "transitions" : [ {
+    "name" : "Arrival",
+    "in" : {
+      "Gen" : 1
+    },
+    "out" : {
+      "Gen" : 1,
+      "Queue1" : 1
+    }
+  }, {
+    "name" : "Start1",
+    "in" : {
+      "Queue1" : 1,
+      "Free1" : 1
+    },
+    "out" : {
+      "Busy1" : 1
+    }
+  }, {
+    "name" : "Finish1",
+    "in" : {
+      "Busy1" : 1
+    },
+    "out" : {
+      "Free1" : 1,
+      "Queue2" : 1
+    }
+  }, {
+    "name" : "Start2",
+    "in" : {
+      "Queue2" : 1,
+      "Free2" : 1
+    },
+    "out" : {
+      "Busy2" : 1
+    }
+  }, {
+    "name" : "Finish2",
+    "in" : {
+      "Busy2" : 1
+    },
+    "out" : {
+      "Free2" : 1,
+      "Served" : 1
+    }
+  } ]
+}

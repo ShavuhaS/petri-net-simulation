@@ -43,13 +43,18 @@ final class ActivityCommand implements Runnable {
     @Spec
     private CommandSpec spec;
 
+    /** Time of the series of runs, without printing and writing files. */
+    private double seriesSeconds;
+
     @Override
     public void run() {
         PetriNet net = NetJson.read(netFile);
         SimulationSeries series = runOptions.series(net);
         double confidence = runOptions.confidence();
         int runCount = runs.auto() ? ActivityAnalysis.requiredRuns(epsilon, confidence) : runs.count();
+        long start = System.nanoTime();
         ActivityAnalysis.Result result = ActivityAnalysis.run(series, runCount, confidence);
+        seriesSeconds = (System.nanoTime() - start) / 1e9;
 
         if (!output.quiet) {
             print(spec.commandLine().getOut(), series, result);
@@ -72,6 +77,8 @@ final class ActivityCommand implements Runnable {
         out.printf("Runs:   %d%s; seeds %d .. %d, tick limit %d%n", n,
                 runs.auto() ? ", required by Chebyshev's inequality for epsilon = " + epsilon : "",
                 series.seedOf(0), series.seedOf(n - 1), series.maxTicks());
+        out.printf(Locale.ROOT, "Time:   %.3f s for the runs (finder: %s)%n", seriesSeconds,
+                series.finder().name().toLowerCase(Locale.ROOT));
         out.println();
 
         out.printf(Locale.ROOT, "Share of runs in which a transition fired (error at confidence %s):%n",

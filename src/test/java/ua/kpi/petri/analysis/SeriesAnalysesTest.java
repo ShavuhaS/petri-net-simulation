@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import ua.kpi.petri.io.NetJson;
 import ua.kpi.petri.model.Marking;
 import ua.kpi.petri.model.PetriNet;
+import ua.kpi.petri.simulation.FinderType;
 import ua.kpi.petri.simulation.SimulationSeries;
 
 import java.nio.file.Path;
@@ -123,6 +124,31 @@ class SeriesAnalysesTest {
         assertEquals(0.05, c.shareError(), 1e-12);
         assertTrue(Math.abs(c.share() - 0.25) < c.shareError(), "share " + c.share());
         assertEquals(2000, ActivityAnalysis.requiredRuns(0.05, 0.95));
+    }
+
+    @Test
+    void incrementalSearchGivesTheSameSharesWithinTheError() {
+        SimulationSeries series = new SimulationSeries(example("lecture7-abc.json"), 1, 100, FinderType.INCREMENTAL);
+        ActivityAnalysis.Result result = ActivityAnalysis.run(series, 2000, 0.95);
+
+        assertEquals(FinderType.INCREMENTAL, series.finder());
+        double[] expected = {1, 0.75, 0.25};
+        for (int j = 0; j < expected.length; j++) {
+            ActivityAnalysis.TransitionActivity t = result.transitions().get(j);
+            assertTrue(Math.abs(t.share() - expected[j]) < t.shareError(), t.transition() + " " + t.share());
+        }
+    }
+
+    @Test
+    void incrementalSearchFindsTheSameReachableMarkings() {
+        PetriNet net = example("lecture7-abc.json");
+        SimulatedReachability.Result naive =
+                new SimulatedReachability(new SimulationSeries(net, 1, 100), 0.95).runUntilSaturated(30, 10_000);
+        SimulatedReachability.Result incremental = new SimulatedReachability(
+                new SimulationSeries(net, 1, 100, FinderType.INCREMENTAL), 0.95).runUntilSaturated(30, 10_000);
+
+        assertEquals(Set.copyOf(naive.markings()), Set.copyOf(incremental.markings()));
+        assertEquals(Set.copyOf(naive.terminal()), Set.copyOf(incremental.terminal()));
     }
 
     @Test

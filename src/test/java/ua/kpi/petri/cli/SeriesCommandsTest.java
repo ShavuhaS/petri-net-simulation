@@ -44,6 +44,20 @@ class SeriesCommandsTest {
     }
 
     @Test
+    void seriesCommandsTakeTheFinderAndPrintTheTime() {
+        for (String command : List.of("simulate", "reachability", "activity")) {
+            Run naive = execute(command, "examples/lecture7-abc.json", "-r", "20", "-s", "1");
+            Run incremental = execute(command, "examples/lecture7-abc.json", "-r", "20", "-s", "1",
+                    "--finder", "incremental");
+
+            assertEquals(0, naive.exitCode(), naive.err());
+            assertEquals(0, incremental.exitCode(), incremental.err());
+            assertTrue(naive.out().contains("s for the runs (finder: naive)"), naive.out());
+            assertTrue(incremental.out().contains("s for the runs (finder: incremental)"), incremental.out());
+        }
+    }
+
+    @Test
     void simulateAutoReportsPilotAndChebyshev() {
         Run run = execute("simulate", "examples/lecture7-abc.json", "-r", "auto", "-s", "1");
 

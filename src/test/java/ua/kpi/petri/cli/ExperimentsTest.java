@@ -88,6 +88,25 @@ class ExperimentsTest {
     }
 
     @Test
+    void proposalTimesEverySeriesWithBothFinders(@TempDir Path out) throws IOException {
+        experiments(out).proposal(List.of(net("dead-transition")));
+
+        Path root = out.resolve(Experiments.PROPOSAL);
+        List<String> csv = Files.readAllLines(root.resolve("summary.csv"));
+        assertEquals("net,places,transitions,series,finder,runs,seconds,seconds_min,seconds_max,result", csv.get(0));
+        assertEquals(7, csv.size());
+        for (String series : List.of("means", "reachability", "activity")) {
+            for (String finder : List.of("naive", "incremental")) {
+                assertTrue(csv.stream().anyMatch(l -> l.startsWith("dead-transition,2,2," + series + "," + finder + ",")),
+                        series + " " + finder);
+            }
+        }
+        assertTrue(Files.exists(root.resolve("nets").resolve("dead-transition.json")));
+        assertEquals(List.of("queue-chain-2", "philosophers-12", "queue-chain-100", "state-machine-100-800",
+                "queue-chain-1000"), Experiments.proposalNets().stream().map(Experiments.NetSpec::name).toList());
+    }
+
+    @Test
     void refusesToWriteOverEarlierResults(@TempDir Path out) throws IOException {
         Files.createDirectories(out.resolve(Experiments.VERIFICATION));
 

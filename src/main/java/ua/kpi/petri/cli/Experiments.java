@@ -1,5 +1,7 @@
 package ua.kpi.petri.cli;
 
+import ua.kpi.petri.analysis.ActivityAnalysis;
+import ua.kpi.petri.analysis.MarkingStatisticsAnalysis;
 import ua.kpi.petri.analysis.ReachabilityComparison;
 import ua.kpi.petri.analysis.ReachabilityResult;
 import ua.kpi.petri.analysis.SimulatedReachability;
@@ -7,6 +9,8 @@ import ua.kpi.petri.generator.NetGenerators;
 import ua.kpi.petri.io.CsvWriter;
 import ua.kpi.petri.io.NetJson;
 import ua.kpi.petri.model.PetriNet;
+import ua.kpi.petri.simulation.FinderType;
+import ua.kpi.petri.simulation.SimulationSeries;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,9 +20,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
 
 final class Experiments {
 
@@ -30,6 +36,16 @@ final class Experiments {
     static final String BENCHMARK = "benchmark";
     static final String REACHABILITY = "4.3-reachability";
     static final String ACTIVITY = "4.4-activity";
+    static final String PROPOSAL = "5.2-proposal";
+
+    /**
+     * Runs of each series in the trial of the proposal. Every series runs once untimed, so that the JIT compiler
+     * settles on the same code, and is then timed {@link #REPEATS} times, as a point of the benchmark.
+     */
+    static final int MEANS_RUNS = 500;
+    static final int REACHABILITY_RUNS = 100;
+    static final int ACTIVITY_RUNS = 2000;
+    static final int REPEATS = 20;
 
     record NetSpec(String name, Supplier<PetriNet> net) {
     }
@@ -88,6 +104,13 @@ final class Experiments {
         return nets;
     }
 
+    /** Nets of the proposal trial: tens, hundreds and thousands of transitions. */
+    static List<NetSpec> proposalNets() {
+        return List.of(queueChain(2), philosophers(12, false), queueChain(100),
+                new NetSpec("state-machine-100-800", () -> NetGenerators.stateMachine(100, 800, SEED)),
+                queueChain(1000));
+    }
+
     /** Series A, B and C with {@code warmup} runs before every point. */
     static List<BenchmarkRun> benchmarkRuns(int warmup) {
         List<BenchmarkRun> runs = new ArrayList<>();
@@ -112,10 +135,14 @@ final class Experiments {
     }
 
     void environment() {
+        environment(out);
+    }
+
+    void environment(Path dir) {
         section("Conditions of the experiments");
         List<String> lines = EnvironmentReport.lines();
         lines.forEach(console::println);
-        write(out.resolve("environment.txt"), lines);
+        write(dir.resolve("environment.txt"), lines);
     }
 
     void verification(List<NetSpec> nets) {
@@ -185,6 +212,72 @@ final class Experiments {
             runner.run(dir.resolve("activity.txt"), new ActivityCommand(), net, "-r", "auto", "-t", ticks(),
                     "-s", seed(), "-o", dir.toString());
         }
+    }
+
+    /** One series of the proposal trial: what it runs and the value that shows its result. */
+    private record TrialSeries(String name, int runs, ToDoubleFunction<SimulationSeries> run) {
+    }
+
+    private static List<TrialSeries> trialSeries() {
+        return List.of(
+                new TrialSeries("means", MEANS_RUNS, series -> {
+                    var result = new MarkingStatisticsAnalysis(series, 0.95).runFixed(MEANS_RUNS);
+                    return result.places().stream().mapToDouble(MarkingStatisticsAnalysis.PlaceSummary::mean).max()
+                            .orElse(0);
+                }),
+                new TrialSeries("reachability", REACHABILITY_RUNS, series ->
+                        new SimulatedReachability(series, 0.95).runFixed(REACHABILITY_RUNS).markings().size()),
+                new TrialSeries("activity", ACTIVITY_RUNS, series ->
+                        ActivityAnalysis.run(series, ACTIVITY_RUNS, 0.95).transitions().stream()
+                                .mapToDouble(ActivityAnalysis.TransitionActivity::share).min().orElse(0)));
+    }
+
+    /**
+     * Trial of the proposal of subsection 5.2: the series of subsections 3.7, 4.3 and 4.4 with a full scan and
+     * with the incremental search. Each series runs once untimed, then is timed {@link #REPEATS} times;
+     * the median goes to summary.csv. The result column is the largest mean marking,
+     * the number of markings met and the smallest share of runs for the three series.
+     */
+    void proposal(List<NetSpec> nets) {
+        Path root = out.resolve(PROPOSAL);
+        CsvWriter csv = new CsvWriter("net", "places", "transitions", "series", "finder", "runs", "seconds",
+                "seconds_min", "seconds_max", "result");
+        List<String> table = new ArrayList<>();
+        table.add(String.format("%-24s %6s %6s %-13s %-12s %6s %10s %12s", "Net", "Places", "Trans.", "Series",
+                "Finder", "Runs", "Seconds", "Result"));
+        for (NetSpec spec : nets) {
+            PetriNet net = spec.net().get();
+            save(spec, root.resolve("nets"));
+            for (TrialSeries trial : trialSeries()) {
+                section("5.2 Proposal: " + spec.name() + ", " + trial.name());
+                for (FinderType finder : FinderType.values()) {
+                    trial.run().applyAsDouble(new SimulationSeries(net, SEED, TICKS, finder));
+                    double[] seconds = new double[REPEATS];
+                    double result = 0;
+                    for (int i = 0; i < REPEATS; i++) {
+                        SimulationSeries series = new SimulationSeries(net, SEED, TICKS, finder);
+                        long start = System.nanoTime();
+                        result = trial.run().applyAsDouble(series);
+                        seconds[i] = (System.nanoTime() - start) / 1e9;
+                    }
+                    Arrays.sort(seconds);
+                    double median = (seconds[(REPEATS - 1) / 2] + seconds[REPEATS / 2]) / 2;
+                    String finderName = finder.name().toLowerCase(Locale.ROOT);
+                    csv.row(spec.name(), net.getPlaces().size(), net.getTransitions().size(), trial.name(),
+                            finderName, trial.runs(), median, seconds[0], seconds[REPEATS - 1], result);
+                    String line = String.format(Locale.ROOT, "%-24s %6d %6d %-13s %-12s %6d %10.3f %12.4f",
+                            spec.name(), net.getPlaces().size(), net.getTransitions().size(), trial.name(),
+                            finderName, trial.runs(), median, result);
+                    table.add(line);
+                    console.println(line);
+                    console.flush();
+                }
+            }
+        }
+        csv.write(root.resolve("summary.csv"));
+        write(root.resolve("summary.txt"), table);
+        section("5.2 Summary");
+        table.forEach(console::println);
     }
 
     /** The runs follow one another, so that they do not share the processor. */

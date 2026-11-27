@@ -136,12 +136,17 @@ final class SimulateCommand implements Runnable {
         firings.forEach((name, count) -> out.printf("  %-20s %10d%n", name, count));
     }
 
+    /** Time of the last series of runs, without printing and writing files. */
+    private double seriesSeconds;
+
     private void seriesOfRuns(SimulationSeries series) {
         double confidence = runOptions.confidence();
         MarkingStatisticsAnalysis analysis = new MarkingStatisticsAnalysis(series, confidence);
+        long start = System.nanoTime();
         MarkingStatisticsAnalysis.Result result = runs.auto()
                 ? analysis.runAuto(pilotRuns, epsilon, maxRuns)
                 : analysis.runFixed(runs.count());
+        seriesSeconds = (System.nanoTime() - start) / 1e9;
 
         if (!output.quiet) {
             printSeries(spec.commandLine().getOut(), series, result);
@@ -162,6 +167,8 @@ final class SimulateCommand implements Runnable {
             out.println(result.requiredRuns() > maxRuns ? ", limited by --max-runs)" : ")");
         }
         out.printf("Seeds:  %d .. %d%n", series.seedOf(0), series.seedOf(n - 1));
+        out.printf(Locale.ROOT, "Time:   %.3f s for the runs (finder: %s)%n", seriesSeconds,
+                series.finder().name().toLowerCase(Locale.ROOT));
         out.printf("Ticks:  limit %d per run; %d of %d runs ended in a deadlock%n",
                 series.maxTicks(), result.deadlockRuns(), n);
         out.println();

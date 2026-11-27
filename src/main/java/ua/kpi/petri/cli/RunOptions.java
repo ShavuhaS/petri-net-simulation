@@ -2,6 +2,7 @@ package ua.kpi.petri.cli;
 
 import picocli.CommandLine.Option;
 import ua.kpi.petri.model.PetriNet;
+import ua.kpi.petri.simulation.FinderType;
 import ua.kpi.petri.simulation.SimulationSeries;
 
 import java.util.random.RandomGenerator;
@@ -19,6 +20,10 @@ final class RunOptions {
     @Option(names = {"--confidence", "-c"}, defaultValue = "0.95",
             description = "Confidence probability for statistical estimates (default: ${DEFAULT-VALUE}).")
     private double confidence;
+
+    @Option(names = "--finder", defaultValue = "naive",
+            description = "Way of finding enabled transitions: ${COMPLETION-CANDIDATES} (default: ${DEFAULT-VALUE}).")
+    private FinderType finder;
 
     private Long chosenSeed;
 
@@ -40,6 +45,6 @@ final class RunOptions {
         if (ticks < 0) {
             throw new IllegalArgumentException("--ticks must not be negative");
         }
-        return new SimulationSeries(net, seed(), ticks);
+        return new SimulationSeries(net, seed(), ticks, finder);
     }
 }

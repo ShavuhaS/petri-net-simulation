@@ -8,20 +8,27 @@ import java.util.random.RandomGeneratorFactory;
 
 /**
  * Independent runs of one net. Run i uses seed {@code baseSeed + i}, so any run can be repeated on its own.
+ * Every run finds enabled transitions with {@code finder}: full scan by default.
  */
 public final class SimulationSeries {
 
     private final PetriNet net;
     private final long baseSeed;
     private final int maxTicks;
+    private final FinderType finder;
 
     public SimulationSeries(PetriNet net, long baseSeed, int maxTicks) {
+        this(net, baseSeed, maxTicks, FinderType.NAIVE);
+    }
+
+    public SimulationSeries(PetriNet net, long baseSeed, int maxTicks, FinderType finder) {
         if (maxTicks < 0) {
             throw new IllegalArgumentException("maxTicks must not be negative: " + maxTicks);
         }
         this.net = net;
         this.baseSeed = baseSeed;
         this.maxTicks = maxTicks;
+        this.finder = finder;
     }
 
     public PetriNet net() {
@@ -36,12 +43,16 @@ public final class SimulationSeries {
         return maxTicks;
     }
 
+    public FinderType finder() {
+        return finder;
+    }
+
     public long seedOf(int run) {
         return baseSeed + run;
     }
 
     public SimulationResult run(int run, SimulationListener... listeners) {
-        Simulator simulator = new Simulator(net, new NaiveEnabledTransitionsFinder(net), newRandom(seedOf(run)));
+        Simulator simulator = new Simulator(net, finder.create(net), newRandom(seedOf(run)));
         for (SimulationListener listener : listeners) {
             simulator.addListener(listener);
         }

@@ -15,7 +15,8 @@ import java.util.Locale;
         description = {"Run the experiments of the report and keep their output for it.",
                 "Every experiment refuses to write over an existing folder of results."},
         subcommands = {ExperimentsCommand.Verification.class, ExperimentsCommand.Benchmark.class,
-                ExperimentsCommand.Reachability.class, ExperimentsCommand.Activity.class, ExperimentsCommand.All.class})
+                ExperimentsCommand.Reachability.class, ExperimentsCommand.Activity.class, ExperimentsCommand.Proposal.class,
+                ExperimentsCommand.All.class})
 final class ExperimentsCommand implements Runnable {
 
     @Option(names = {"--out", "-o"}, defaultValue = "results", paramLabel = "DIR", scope = ScopeType.INHERIT,
@@ -112,6 +113,28 @@ final class ExperimentsCommand implements Runnable {
         }
     }
 
+    @Command(name = "proposal", mixinStandardHelpOptions = true,
+            description = {"Series of runs with a full scan and with the incremental search (subsection 5.2).",
+                    "Writes the conditions of the experiment into its own folder. On a processor with performance",
+                    "and efficiency cores keep it on the performance ones (Linux, i5-12450H: CPUs 0-7):",
+                    "  taskset -c 0-7 java -Xms4g -Xmx4g -jar petri-net-simulation.jar experiments proposal"})
+    static final class Proposal implements Runnable {
+
+        @ParentCommand
+        private ExperimentsCommand parent;
+
+        @Override
+        public void run() {
+            long start = System.nanoTime();
+            PrintWriter console = parent.spec.commandLine().getOut();
+            Experiments experiments = new Experiments(parent.out, console);
+            experiments.requireFresh(Experiments.PROPOSAL);
+            experiments.environment(parent.out.resolve(Experiments.PROPOSAL));
+            experiments.proposal(Experiments.proposalNets());
+            parent.finish(start);
+        }
+    }
+
     @Command(name = "all", mixinStandardHelpOptions = true,
             description = {"All experiments: the benchmark first, then verification, reachable markings and activity.",
                     "Takes about half an hour, mostly the benchmark. Run it with as little background load as possible "
@@ -130,11 +153,12 @@ final class ExperimentsCommand implements Runnable {
         public void run() {
             long start = System.nanoTime();
             Experiments experiments = parent.start(Experiments.VERIFICATION, Experiments.REACHABILITY,
-                    Experiments.ACTIVITY, Experiments.BENCHMARK);
+                    Experiments.ACTIVITY, Experiments.BENCHMARK, Experiments.PROPOSAL);
             experiments.benchmark(Experiments.benchmarkRuns(warmup));
             experiments.verification(Experiments.verificationNets());
             experiments.reachability(Experiments.reachabilityNets());
             experiments.activity(Experiments.activityNets());
+            experiments.proposal(Experiments.proposalNets());
             parent.finish(start);
         }
     }
